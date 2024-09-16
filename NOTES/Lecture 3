@@ -1,0 +1,97 @@
+I. Collaborating on GitHub 
+
+    A. Make a fork of the repo
+        1. A fork will be a copy at the time of forking - there is no syncing between the two
+    B. You are now able to work on your own repo without affecting the main one. 
+        1. This allows for the splitting of work leaving the main branch stable (not where you do development) and give you a space to do development (the branch off of main). 
+        2. If you screw up thats no problem because you have a place that is separate. 
+        3. Question: How do you update the fork to get new things that have been added to the main repo
+    C. Things you can now go and do
+        1. Go to GitHub and look up area of interest - fork and then try to work some things out for yourself 
+        2. Good place to start is to look at their "good first issues" 
+      * galletilance - kviz project 
+
+II. Introduction to Data Science Tools
+
+    A. What is Data Science
+        1. Something that is very very hard
+        2. At its core 
+            a. finding relationships between different things 
+            b. using the data that we have to make those connections
+                i. even including all of the information that we have there remains randomness which could influence the situation
+            c. example: the air tempurature of the room may be impacted by how many people are in the room, the pressure, etc.
+        3. Models
+            a. will always be "wrong" - but some models are useful
+                i. doesn't need to match data exactly, just needs to do it well enough or give some indication of the pattern of data
+    B. Confirmation Bias
+        1. Challenges of Data Science
+            a. a set of examples may not always be representative of the underlying rule 
+            b. there may be infinitely many rules that match the examples provided
+            c. rules and/or examples may change over time 
+        2. Positive vs. Negative Examples
+            a. if you have a specific hypothesis they either follow your hypothesis (+) or they do not follow your hypothesis (-)
+                i. good practice is having equal numbers of positive and negative examples 
+            b. All possible examples 
+                i. the rule
+                    - your hypothesis 
+                * this shows that there can be results that follow the rule but not your hypothesis (shows that hypothesis is false)
+                * you want to find the ones that are negative for your hypothesis but follow the rule because it does not support your hypothesis and you should move to try a different hypothesis 
+        3. Sometimes there just randomness - other times it is a lack of information that makes it look random  
+    C. Data Science Workflow (simplified)
+
+             Process Data --> Explore Data --> Extract Features --> Create Model
+               |                  |                |                   |
+               |<-----------------|<--------------<|------------------<|
+
+        1. Data is everything (process)
+            a. without good data you cannot model properly 
+            b. ex: if all you have is the temperature - you are likely not able to model a companies performance very well 
+        2. Know your data (exlore)
+            a. you should be an expert of your own data 
+            b. how can you expect a model to describe good relationships if you cannot 
+            c. be able to explain the data and meaningful relationships (that you have identified)
+        3. What are you going to use to model (feature)
+            a. think about the data that you have and what the best way to use it would be
+            b. transforming your data into a meaningful configuration to answer your question
+        4. Veryyyy end (Create model)
+            a. a very small part of data science
+            b. if the foundations or previous steps of the process are unstable or not flushed out, you will likely get a poor model
+            c. biggest bang for your buck will come from the previous 3 steps
+            d. what features did you find that are the most relevant for your task
+    D. Types of Data
+        1. Records 
+            a. vectors 
+            b. example: (Name, Age, Balance) -> ("John", 20, 100)
+                i. would be stored in a spreadsheet
+        2. Graphs 
+            a. nodes connected by edges 
+                i. can be directed or undirected 
+                    - directed (you follow someone on instagram but they don't follow you)
+                    - undirected (you both follow each other)
+            b. can be represented as adjaceny matrix 
+                i. matrix that says if there is an edge between two nodes
+        3. Images  
+            a. pixels
+            b. 3D matrix of red, green, blue matrix 
+            c. matrix organized in such a way that the pixel intensity value is that of the top left corner for example
+        4. Corpus of Documents 
+            a. text 
+            b. find some words that are important others that are not 
+                i. "the" is not typically meaningful but something like "brain" might be
+    E. Types of Learning
+        1. Unsupervised Learning
+            a. Goal : finda interesting structure in the data
+            b. ex: there are naturally occuring groupings (clusters) in the data set
+            c. what are some of the linear algebraic properties of the matrix of data? what does that tell me about the data?
+                i. is there a lot of variation, is it balanced
+        2. Supervised Learning
+            a. finding patterns in the data and then predicting things based upon it
+            
+
+
+
+            
+        
+    
+    
+ 
