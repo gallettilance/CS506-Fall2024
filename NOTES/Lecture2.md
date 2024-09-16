@@ -15,3 +15,10 @@
 - My main branch is special it is not a place to develop the new features
 - Make a new branch and develop it. If you screw it over then delete the branch!
   
+## Linear Algebra
+- hard to tell what exact factors contribute to a given result 
+- need to know under which circumstances a hypothesis is made false (what data points makes it wrong)
+- y = f(x) gives us an idea of how the data trends, but there will still be variation 
+- confirmation bias -- just because you feel like you see relationship, doesn't necessarily mean that it is there(?)
+- working with a finite set of points and asked to find this relationship
+- positive example supports hypothesis; negative doesn't 
