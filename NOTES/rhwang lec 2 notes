@@ -1,0 +1,5 @@
+upstream/main and origin/main
+fork repo copies at a point in time, changes may merge into main repo
+to prevent loss of work, 'git pull upstream main' to your main repo, then 'git push origin main'. 
+this will keep everything in sync
+good practice is to never commit to your main branch. stable, not for development. development should be in its own isolated area
