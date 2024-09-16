@@ -1,0 +1,18 @@
+Basic commands to add to cloud:
+
+remote "origin" ur code on comp
+
+rmeot "upstream" code on main repo 
+
+add  
+
+commit 
+
+push
+
+Good things to do:
+
+- make copies of repos (then if done will request to push all good changes in the branches to the main repo these are called pull requests)
+
+
+main repo -> using "Fork", creates a branch reposiitory 
