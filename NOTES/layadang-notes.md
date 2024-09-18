@@ -1,3 +1,42 @@
+# Lecture 3 (09/16)
+## Cluster K-means
+Clustering: grouping data points such that they are similar to each other and dissimilar from others
+
+Clustering can be arbitrary!
+
+Types of clustering
+* partitional: each object belongs to exactly one cluster
+(goal is to parition dataset into k clusters)
+* hierarchial
+* density-based
+* soft clustering
+
+Mathematical way to evaluate a parition: evaluate validity of a cluster by **sum of variance**
+* if sum of smaller, it is a better cluster (points are closer together in the cluster)
+
+## Cost Function
+Method to evaluate and compare solutions, find some alg to min cost function
+
+Evaluate partition: sum of all points in each cluster of squared distances from points to its center
+* edge cases: k=1 all points are in one cluster, k=n each point is in its cluster
+
+General algorithm idea: continue to adjust cluster and data points and assign data points to minimize cost  
+
+**Lloyd's Algorithm**: 
+(1) randomly pick k centers (assign each point in the dataset to its closest center)
+(2) assign each point in the dataset 
+(3) compute the new centers / true centers as the means of each cluster 
+(4) repeat
+
+# Problems
+Elongated clusters with naturally high variance means it will be split up, despite beloning together
+
+Can only make circular/bobular cluster shapes because of the mean-centering properties
+
+Dependent on the "random" starting point / inital placement matters / algorithm is not optimal
+
+Easily thrown off by outliers
+
 # Lecture 2 (09/16)
 
 ## Additional Git information
