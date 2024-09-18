@@ -152,3 +152,50 @@ types of data - images
 - image that can be split up into a collection of pixels (usually a triple of red, green, blue intensities)
 types of data - text
 - list of words that we can extract more info from; like with a corpus of documents and figure out what words are important and which are not
+
+## 9/18 notes
+on clustering - kmeans
+
+what is it about the data that is interesting and what are patterns that naturally exist in the data
+
+clustering is about finding a partition of our dataset such that points are together in groups and those points in groups are similar to each other and those not in the same group are dissimilar to each other
+not really clear usually what the "right answer" is --> many of the cluster results/solutions could be right
+
+types of clusterings
+- partitional - each object belongs to exactly one cluster
+- hierarchical - set of nested clusters organized in a tree
+- density-based - defined basd on the local density of points
+- soft clustering - each point is assigned to every cluster with a certain probability
+
+partitional clustering
+- spread of variance around the mean is smaller on the left than on the right with the example
+- mathematical way of evaluating the parition (one cluster better than the other because sum of the variances is smaller in that better cluster)
+- $\sum_{i}^{k} \sum_{x \in C_i} d(x,\mu_i)^2$  <- cost function. way to evaluate and compare solutions. hope: can find some algorithm that finds solutions that makes the cost small. sum of the variance of the particular cluster $C_i$. outside sum is over ALL clusters. cardinality $\frac{1}{|C_i|}$ is omitted. $\mu_i$ is the mean of cluster i.
+- if we have a button that can generate a partition we now have a mathematical formula that can evaluate if this is a good or bad partition (with the cost function)
+
+k-means
+- given $X = x_1, ..., x_n$ our dataset d, the euclidean distance, and k
+- find k centers $\mu_1, ..., \mu_k$ that minimizes the cost function: $\sum_{i}^{k} \sum_{x \in C_i} d(x,\mu_i)^2$
+- if k=1 this is easy bc just 1 cluster. k=n is easy bc every point is in its own cluster
+- when $x_i$ lives in more than 2 dimensions this is very difficult
+
+- EX: given a partition, can give points to one cluster or the other depending on which cluster its closer to and then eventually have clusters of points that dont really overlap too much anymore
+
+could start with a random set of centroids (or middles) to clusters and then start assigning points to the closest centroids which will generate partitions. 
+
+k-means - llyod's algorithm
+- 1. randomly pick k centers $\mu_1, ..., \mu_k$
+- 2. assign each point in the dataset to its closest center
+- 3. compute the new centers as the means of each cluster
+- 4. repeat 2 & 3 until convergence
+
+ where does the cost function come into play for k-means? -> each time we change the centers and moving the points we are making the spreads smaller and therefore the variance smaller and we are minimizing the cost function
+
+in-class slides questions
+1. is this a possible output of kmeans? -> yes. this is one of the best outputs you can have for k=4 in this case (chosing k)
+2. is this a possible output of kmeans? -> no. there are points that would need to be a part of the blue to minimize the spreads of the clusters. if the clusters were farther apart the answer would be potentially yes. (elongated)
+3. is this a possible output of kmeans? -> no. the clusters are not typical circular shape and k-mean cannot make that shape. (non-globular)
+4. is this a possible output of kmeans? -> yes. the initial placement of the k-centers matters and the algorithm is NOT optimal so we won't find the best solution everytime. (not optimal solution)
+5. is this a possible output of kmeans? -> yes. the outliers really throw off the algorithm so if you happen to be unlucky enough to pick centroids that are outliers you can have a result like this. (outliers)
+
+
