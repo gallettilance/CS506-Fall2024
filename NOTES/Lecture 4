@@ -1,0 +1,46 @@
+Clustering - Kmeans 
+
+I. Unsupervised Learning 
+    A. not looking for patterns related to a particular task but those that are naturally occuring
+    B. help up create meaningful and useful predictors later on 
+II. Clustering
+    A. What is it?
+        1. goal is to determine a partition of dataset such that some points are together and some points are not 
+        2. the ones that are together have something in common and the ones that are not together do not have that thing in common
+    B. Clustering can be ambiguous
+        1. its not quite always clear what the best way to group things would be 
+    C. Partitional clustering
+        1. goal is to partition dataset into k partitions
+        2. picutre
+            a. on left the variance is much smaller between the points of same color on the left compared to the right 
+                i. gives mathematical way to determine best clusters
+                ii. sum of variance smaller = clustering better
+                iii. 1 over cardinatlity i * sum of all points in cluster i with distance of mean cluster i
+            b. you can draw a line through the picutre on the left and have only one color on each side
+        3. cost function
+            a. way to evaluate and compare solutions
+            b. hope: can find some algorithm that finds solutions that make the cost small
+            c. sum of all clusters variance  
+        * how do we find the 
+    D. K-means 
+        1. Given x = {x1,...,xn} out dataset 
+        2. How do we improve the cost?
+            a. if we look at the spread of each cluster and some points are closer to the center of a different cluster we can give them over to the other cluster
+        3. we can repetedly rearrange our clusters by looking at the distance from the center of the cluster to all the other points 
+            a. beginning: define clusters by assigning centroids 
+        4. Lloyd's Algorithm
+            a. Randomly pick k centers
+            b. assign each point in the dataset to its closest center
+            c. compute the new centers as the means of each cluster
+            d. repeat b and c until convergence
+                i. converge when we no longer move centroids (found best/actual center of cluster)
+                ii. as we change the centers we are changing the variance so that the spreads become smaller for each cluster (minimizing cost)
+            * initial placement of centroids does matter - we can end up in different combinations of clusters based on where the first centroids are ex: question 4
+        5. use cases
+            a. fill in blanks in our dataset 
+                i. two users have similar salary and hair color - only know one's hobbies - could fill in the other users 
+            b. find better features 
+     
+            
+
+
