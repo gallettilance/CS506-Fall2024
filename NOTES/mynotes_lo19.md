@@ -199,3 +199,70 @@ in-class slides questions
 5. is this a possible output of kmeans? -> yes. the outliers really throw off the algorithm so if you happen to be unlucky enough to pick centroids that are outliers you can have a result like this. (outliers)
 
 
+## 9/23 notes
+k-means - llyod's algorithm
+- 1. randomly pick k centers $\mu_1, ..., \mu_k$
+- 2. assign each point in the dataset to its closest center
+- 3. compute the new centers as the means of each cluster
+- 4. repeat 2 & 3 until convergence
+
+k-means lloyd's algorithm questions
+1. will this algorithm always converge? -> yes
+- proof (by contradiction): suppose it doesn't converge. then, either 1 the minimum oft he cost function is only reached in the limit (i.e. after an infinite number of iterations) which is impossible because we are iterating over a finite set of partitions. 2 the algorithm gets stuck in a cycle/loop this isn't possible because  this would require having a clustering that has a lower cost...
+2. will this always converge to the optimal solution? -> no (how can we make this better? --> use farthest first traversal, first point is random and the rest are as far as possible from the other ones that are picked)
+3. the black box returns "12" as the random number generated. which point do we choose for the next center (x,y, or z)? -> x
+4. the black box returns "4" as the random number generated. which points do we choose for the next center (x,y, or z)? -> y
+5. given the examples of the sihlouette scores, with 200 data points on the y-axis, x-axis with the scores, and the red dotted line as the average. looking for the silhouette score where the average is high and most clusters have points beyond that average. which two would you completely rule out? -> 3 and 4
+
+farthest first traversal doesn't always work b/c like in one example we could have far outliers
+
+k-means++
+- initialize with a combination of the two methods (points that are farther have a higher chance of being picked but not for sure)
+- 1. start with a random center
+- 2. let D(x) be the distance between x and the closest of the centers picked so far. choose the next center with probability proportional to $D(x)^2$
+
+suppose we are given a black box that will generate uniform random number between 0 and any N. how do we use this black box to select points with probability proportional to $D(x)^2$?
+- $D(x)^2 = 3^2 = 9$, $D(y)^2 = 2^2 = 4$, $D(z)^2 = 1^2 = 1$
+- x has a high chance of being picked
+- N = $D(x)^2 + D(y)^2 + D(z)^2 = 14$
+
+k-means/kmeans++
+- doesn't do good in different density clusters, non globular clusters, sparse clusters, etc.
+
+how to choose the right k?
+1. iterate through different values of k (elbow method, elbow is the point of diminishing returns)
+2. use empirical/domain-specific knowledge (example: if there a known approximate distribution of the data? (k-means is good for spherical gaussians))
+3. metric for evlauating a clustering output
+
+evaluation
+- recall our goal: find a clustering such that 
+- similar data points are in the same cluster (kmeans does do this)
+- dissimilar data points are in different clusters (kmeans doesnt really evaluate this)
+
+k-means cost function tells us the within-cluster distances between points will be small overall
+- but what about intra-cluster distance? are the clusters we created far? how far? relative to what?
+
+discussion -> define a metric that evaluates how spread out the clusters are from one another -> distance between the centroids, average distance (between pairwise distances)
+
+example
+- a: average within-cluster distance (spread of the clustering)
+- b: average intra-cluster distance (how far the two clusters are from each other)
+- what does it mean for (b-a) to be 0? -> they're mixed up together/overlapping, very close to each other
+- what does it mean for (b-a) to be large? -> they're spread out
+- the value of (b-a) doesn't mean much by itself. can we compare it to something so that the ratio becomes a value between 0 and 1? 
+- (b-a) / max(a,b)
+- what does it mean for (b-a)/max(a,b) to be close to 1? -> almost perfect separation
+- what does it mean for (b-a)/max(a,b) to be close to 0? -> that means that (b-a) is probably 0 so we probably have overlapping clusters
+
+silhouette scores
+- for each data point i:
+- $a_i$: mean distance from point i to every other point in its cluster
+- $b_i$: smallest mean distance from point i to every point in another cluster
+- $s_i = (b_i - a_i) / max(a_i, b_i)$, if all of them are close to 1 that means we have done a good job of clustering
+- silhouette score plot
+- OR return the mean $s_i$ over the entire dataset as a measure of the goodness of fit
+
+k-means variations
+1. k-means (uses the $L_1$ norm/manhattan distance)
+2. k-medoids (any distance function + the centers must be in the dataset)
+3. weighted k-means (each point has a differentw weight when computing the mean)
