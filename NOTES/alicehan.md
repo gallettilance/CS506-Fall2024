@@ -42,3 +42,6 @@ Paritional Clustering:
   - elongated clusters (dist between less than length of cluster)
   - randomly assigned centers between two and also two in one cluster 
   - outliers really throw off the clusters 
+
+  # 9/23/2024
+  
