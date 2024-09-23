@@ -1,3 +1,51 @@
+# Lecture 4 (09/23)
+## K-means
+Lloyd's algorithm review
+* randomly pick k centers
+* assign each point to a center
+* compute new centers
+* repeat
+
+## *Lloyd's algorithm always converges* --> True!
+
+Proof by contradiction: iterating over limited partitions, there are no infinite loops
+
+## *Lloyd's algorithm always picks the optimal solution* --> False!
+
+The starting random centers affect the results, maybe pick points that are as far away as possible from each other. (Farthes First Traversal)
+
+Problem: picking an outlier as a cluster, not random enough (K-means would not have had this happen)
+
+Combine both methods? Randomness but weighted by distance (so further points have a higher chance of getting picked, but its not deterministic) <-- K-means++
+
+### K-means++
+Select points where each point has probability weighted by its distance from the last point (favor points that are further away)
+Chance of picking any point == proportional to its distance squared
+
+## Finding the correct k
+The lowest cost is when k = # of data points
+
+The point of diminishing returns (point in which adding another cluster decreases how much cost went down)
+
+Sometimes, k needs prior knowledge / domain experts
+
+Metric for evaluating a clustering output
+* similar in same cluster, dissimilar in different clusters
+* variance we expect?
+
+## Silhouette scores
+We need clusters to be FAR (inter-cluster differences) and COMPACT (within-cluster difference)
+
+* (a) within cluster difference (compact)
+* (b) inter cluster difference (far)
+
+if (b-a) = 0, they're overlapping :( --> so (b-a) should be large
+
+normalize it (s.t. (b-a) is a scale fromm 0 to 1):
+* (b-a) / max(a, b)
+* closer to 1 means one is so far comapared to the other (closer to perfect scenario)
+* closer to 0 means there is an overlapping cluster (not ideal)
+
 # Lecture 3 (09/16)
 ## Cluster K-means
 Clustering: grouping data points such that they are similar to each other and dissimilar from others
