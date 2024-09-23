@@ -44,4 +44,39 @@ Paritional Clustering:
   - outliers really throw off the clusters 
 
   # 9/23/2024
-  
+  ## Kmeans++
+- Will Lloyd's always converge? 
+  - there is only a finite number of partitions in the data set, so we will always be able to find the optimal even if by looking at all possible 
+  - algorithm get stuck in a cycle/loop. Would only happen if you have 2 overlapping points and a randomized assignment of points to clusters, but our algorithm can spot that these are the same point and therefore is converged. 
+  - so.. YES will always converge
+- Does it always converge to the optimal solution? 
+  - no, like example from last class, there can be clusters close together which might not count an organic cluster as a single cluster, but instead as two. 
+  - if we were to pick the farthest away points as the centrs, they woudl just all be outliers as a full cluster
+- Instead, **KMEANS++** allows you to combine the randomized centers while also using a probability proportional to the distance squared 
+  1. start with a random center
+  2. Let D(x) be the distance between x and the closest of the centers picked so far. Choose the next center with probability propoetional to D(x)^2
+- The goal is to minimize the cost, but we don't want too many k points 
+  - looking for point of diminishing return 
+- How do we choose the right k?
+  1. iterate through diff values of k (elbow method) 
+  2. Use empirical / domain-specific knowledge
+  3. Metric for evaulating the clustering 
+- want to find way to evaulate the clusters
+  - only evaluates if similar data points are in the same cluster, but not if dissimilar datapoints are in diff clusters
+  - a = average within-cluster distance 
+    - basically radius 
+  - b = average intra-cluster distance 
+    - distance between centers 
+  - if (b-a) = 0, then a and b are overlapping or very close together 
+    - we want to maximize b - a 
+  - butttt this value doesnt really mean anything so we want it to be a ratio value between 0 and 1
+    - (b - a) / max(a, b)
+    - if value close to 1, that means that there is really good separation between the two clusters 
+- Silhouette Scores: 
+  - for each data point i: 
+    - $a_i$ = mean distance from point i to every other point in its cluster
+    - $b_i$ = smallest mean distance from point i to every point in another cluster 
+    - essentially, distance to its neighbors compared to the distance to each of its neighbors 
+    - $s_i = (b_i - a_i) / max(a_i, b_i)$ 
+  - if each point's silhouette score is close to 1, then we know that this is a good partition 
+  - we can then plot the silhouette scores and their average 
