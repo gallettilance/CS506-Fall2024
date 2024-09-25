@@ -46,6 +46,11 @@ normalize it (s.t. (b-a) is a scale fromm 0 to 1):
 * closer to 1 means one is so far comapared to the other (closer to perfect scenario)
 * closer to 0 means there is an overlapping cluster (not ideal)
 
+Calculate silhouette scores of every single point from each cluster
+* look at all of them (especially outliers)
+* look at ones that are near 0 and 1
+* look at average silohette scores
+
 # Lecture 3 (09/16)
 ## Cluster K-means
 Clustering: grouping data points such that they are similar to each other and dissimilar from others
