@@ -266,3 +266,134 @@ k-means variations
 1. k-means (uses the $L_1$ norm/manhattan distance)
 2. k-medoids (any distance function + the centers must be in the dataset)
 3. weighted k-means (each point has a differentw weight when computing the mean)
+
+## 9/25 notes
+hierarchical cluistering
+- at every step, we record which clusters were merged in order to produce a dendrogram
+- we can "cut" the dendrogram at any threshold to produce any number of clusters
+
+two types of hierarchical clustering
+- agglomerative:
+1. start with every point in its own cluster
+2. at each step, merge the two closest clusters
+3. stop when every point is in the same cluster
+- divisive:
+1. start with every point in the same cluster
+2. at each step, split until every point is in its own cluster
+
+agglomerative clustering algorithm
+1. let each point in the dataset be its own cluster
+2. compute the distance between all pairs of clusters
+3. merge the two closest clusters
+4. repeat 3 & 4 until all points are in the same cluster
+
+can we implement this? are we missing anything?
+
+how would you define distance between clusters?
+
+hierarchical clustering - distance functions
+- lets first define:
+- distance between points: $d(p_1,p_2)$
+- distance between clusters: $D(C_1,C_2)$
+
+single-link distance
+- is the minimum of all pairwise distances between a point from one cluster and a point from the other cluster
+- $D_{SL}(C_1,C_2) = min(d(p_1,p_2) | p_1 \in C_1, p_2 \in C_2)$
+- depends on choice of d
+- can handle clusters of different sizes
+- but... sensitive to noise points, tends to create elongated clusters
+
+Q. is C or D closer to {A,B}?
+- need to define 3 distances: the distance between A,B, and D (defined by (A,D)=2) and between A,B, and C (defined by (B,C)=sqrt(5)).
+- sqrt(5) is longer than 2, so we should merge D into cluster {A,B}
+
+complete-link distance
+- is the maximum of all pairwise distances between a point from one cluster and a point from the other cluster.
+- $D_{CL}(C_1,C_2) = max(d(p_1,p_2) | p_1 \in C_1, p_2 \in C_2)$
+- less susceptible to noise
+- creates more balanced (equal diameter) clusters
+- but... tends to split up large clusters. all clusters tend to have the same diameter
+
+Q. is C or D closer to {A,B}?
+- distance betweeen A,B,D defined by B,D distance which is sqrt(10) and distance between A,B,C is defined by A,C distance which is 3
+- we merge C (because its the smallest distance)
+
+average-link distance
+- is the average of all pairwise distances between a point from one cluster and a point from the other cluster
+- $D_{AL}(C_1,C_2) = \frac{1}{|C_1| \dot |C_2|} \sum_{p_1 \in C_1, p_2 \in C_2} d(p_1,p_2)$
+- less susceptible to noise and outliers
+- but... tends to be biased towards globular clusters
+
+Q. is C or D closer to {A,B}?
+(didn't calculate in-class)
+
+centroid distance
+- the distance between the centroids of clusters
+- $D_C(C_1,C_2) = d(\mu_1, \mu_2)$
+
+Q. is C or D closer to {A,B}?
+(didn't calculate in-class)
+
+ward's distance
+- is the difference between the spread/variance of points in the merged cluster and the unmerged clusters
+- $D_{WD}(C_1,C_2) = \sum_{p \in C_{12}} d(p,\mu_{12}) - \sum_{p \in C_{1}} d(p_1,\mu_{1}) - \sum_{p \in C_{2}} d(p_2,\mu_{2})$
+- whats the penalty in terms of spread if we merge the clusters
+- we dont want a high variance with the clusters
+
+Q. is C or D closer to {A,B}?
+(didn't calculate in-class)
+
+example with distance matrix, where d = Euclidean, D = Single-Link
+- matrix has all the distances between the different points
+- choose the smallest distance and merge those two as a cluster
+- now A and B are together, and we update the distances using the linked distances with the other points C and D
+- choose the two closest clusters -> merge A,B cluster with D
+- update matrix again with the A,B,D and merge together with point C
+- if you have a higher distance you're willing to accept for clusters, that means you have a lot of clusters merged together and vice versa
+
+hierarchical clustering
+- finding the threshold with which to cut the dendrogram requires exploration and tuning
+- but in general hierarchical clustering is used to expose a hierarchy in the data (EX: finding/defining species via DNA similarity)
+- to capture the difference between clustering you can use a cost function, or methods that we'll discuss later when looking at clustering aggregation
+
+density-based clustering
+- goal: cluster together points that are densely packed together
+- how should we define density? number of points in a given area
+- given a fixed radius $\epsilon$ around a point, if there are at least min_pts number of points in that area, then this area is dense
+
+example
+- min_pts = 3
+- $\epsilon$-neighborhood of this point is within that radius
+- if more than three points we classify as dense
+
+we need to distinguish between points at the core of a dense region and points at the border of a dense region
+- let's define:
+- core point: if its $\epsilon$-neighborhood contains at least min_pts
+- border point: if its in the $\epsilon$-neighborhood of a core point
+- noise point: if its neither a core nor border point
+
+DBScan Algorithm
+- $\epsilon$ and min_pts given:
+1. find the $\epsilon$-neighborhood of each point
+2. label the point as core if it contains at least min_pts
+3. for each core point, assign to the same cluster all core points in its neighborhood (crux of the algorithm)
+4. label points in its neighborhood that are not core as border
+5. label points as noise if they are neither core nor border
+6. assign border points to nearby clusters
+
+DBScan visualized
+- iterate through the dataset
+- if core point - iterate through its neighborhood to find more core points that should also be part of the cluster
+- go to next point in the dataset
+- iterate over its neighborhood since its a core point
+- found another core point so we need to iterate over its neighborhood too
+
+
+DBScan benefits
+1. can identify clusters of different shapes and sizes
+2. resistant to noise
+
+DBScan limitations
+1. can fail to identify clusters of varying densities
+2. tends to create clusters of the same density
+3. notion of density is problematic in high-dimensional spaces
