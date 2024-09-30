@@ -397,3 +397,69 @@ DBScan limitations
 1. can fail to identify clusters of varying densities
 2. tends to create clusters of the same density
 3. notion of density is problematic in high-dimensional spaces
+
+## 9/30 notes
+dino example
+- have k different species in the park, weighing them
+- trying to find which species corresponds to which weight
+
+problem statement
+- given a dataset of weights smapled from N different animals
+- can we determine which weight belongs to which animal?
+
+output
+- makes more senes to provide, for each data point (weight) the probability that it came from each species
+- $P(S_j|X_i)$
+- where $S_j$ is species j and $X_i$ is the ith weight in the dataset
+
+things to consider
+1. there is a prior probability of being one species (i.e. we could have an imbalanced dataset or there oculd just be more of one species than the other)
+    - some dinosaurs are more common than others: for example there are many more Stegosauruses than Raptors in the park. this means a given data point, knowing nothing about it would just have a higher chance of being a Stegosaurus than a Raptor
+2. weights vary differently depending on the species (i.e. each species could have a different weight distribution)
+
+how to compute $P(S_j|X_i)$?
+- $P(S_j|X_i) = \frac{P(X_i|S_j)P(S_j)}{P(X_i)}$
+- $P(S_j)$ is the prior probability of seeing species $S_j$ (that probability would be higher for Stegosauruses than the Raptors for example)
+- $P(X_i|S_j)$ is the PDF of species $S_j$ weights evaluated at weight $X_i$ (seeing a Sauropod that weighs 100 tons is way more likely than seeing a Raptor that weights 100 tons)
+
+what about $P(X_i)$?
+- $P(X_i) = \sum_j P(S_j)P(X_i|S_j)$
+
+mixture model
+- X comes from a mixture model with k mixture components if the probability distribution of X is:
+- $P(X) = \sum_j P(S_j)P(X|S_j)$
+    - $P(S_j)$ is the mixture proportion that represents the probability of belonging to $S_j$
+    - $P(X|X_j)$ is the probability of seeing x when sampling from $S_j$
+
+gaussian mixture model
+- a gaussian mixture model (GMM) is a mixture model where $P(X|S_j) ~ N(\mu, \sigma)$
+
+maximum likelihood estimation (intuition)
+- suppose you are given a dataset of coin tosses and are asked to estimate the parameters that characterize that distribution - how would you do that?
+- MLE: find the parameters that maximized the probability of having seen the data we got
+- example: assume Bernoulli(p) iid coin tosses. goal: find p that maximized that probability
+    - P(having seen the data we saw) = P(H)P(T)P(T)P(H)P(T) = $p^2(1-p)^3$
+    - the sample proportion $2/5$ is what maximizes this probability
+
+GMM clustering
+- goal: find the GMM that maximizes the probability of seeing the data we have
+- recall: $P(X_i) = \sum_j P(S_j)P(X_i|S_j)$
+- finding the GMM means finding the parameters that uniquely characterize it. what are these parameters?
+    - $P(S_j)$ & $\mu_j$ & $\sigma_j$ for all k components
+    - lets call $\theta = (\mu_1,..., \mu_k, \sigma_1, ...., \sigma_k, P(S_1), ..., P(S_k))$
+- the probability of seeing the data we saw is (assuming each data point was sampled independently) the product of the probabilities of observing each data point
+- goal: $\Pi_i P(X_i) = \Pi_i \sum_j P(S_j)P(X_i|S_j)$
+- how do we find the critical points of this function?
+    - notice: taking the log-transform does not change the critical points
+    - define:
+        - log($\Pi_i \sum_j P(S_j)P(X_i|S_j)$) = $\sum_i$ log ($\sum_j P(S_j)P(X_i|S_j)$)
+- to get:
+    - $\hat{\mu_j} = \frac{\sum_i P(S_j|X_i)X_i}{\sum_i P(S_j|X_i)}$
+    - $\hat{\sum_j} = \frac{\sum_i P(S_j|X_i)(X_i - \hat{\mu_j})^T(X_i - \hat{\mu_j})}{\sum_i P(S_j|X_i)}$
+    - $\hat{P}(S_j) = \frac{1}{N} \sum_i P(S_j|X_i)$
+
+expectation maximization algorithm
+1. start with random $\mu, \sum, P(S_j)$
+2. compute $P(S_j|X_i)$ for all $X_i$ using $\mu, \sum, P(S_j)$
+3. compute/update $\mu, \sum, P(S_j)$ from $P(S_j|X_i)$
+4. repeat 2 and 3 until convergence
