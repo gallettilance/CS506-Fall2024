@@ -1,3 +1,77 @@
+# Lecture 5 (09/25)
+Building a DENDOGRAM with info of which cluster is merging, which shows similarities among groups
+
+## Hierarchical Clustering
+### Agglomerative
+- Start with every point in its own cluster
+- At each step merge the two closest clusters
+- Stop when every point is in the same cluster
+
+### Divisive
+- Start with every point in the same cluster
+- At each step, split until every point is in its own cluster (K-means?)
+
+## Agglomerative
+What is a distance between two clusters? From last lecture, we have silhouette scores (distance between points (D), distance between clusters (d)), similarly, we have single-link distance and complete-link distance
+
+### Single-link distance
+To determine which cluster is closer, use the two closest points:
+
+- D(C1, C2) = min(d(p1, p2)), where p1 and p2 are points in two different clusters
+
+Handles clusters of different sizes, but noise between the two interferes with min distance
+
+### Complete-link distance
+Use the furthest possible distance between the two clusters as possible
+- D(C1, C2) = max(d(p1, p2)), where p1 and p2 are points in two different clusters
+
+Helps with noise, but not good with clusters of different sizes
+
+### Average-link distance
+
+Average of all distances between the points of all clusters
+
+### Ward's distance
+Most used method
+
+Estimate penalty (variance of new cluster) if we were to merge too clusters, the difference between merged and unmerged is the score
+
+## Density-based clustering
+
+Cluster points tahta are densely packed together (allow for weird-shaped clusters)
+
+**Density**: number of points over given area
+
+Define a **min point** or minimum number of points within an area (**radius**), label as core (in the area), border (touching the border), or noise (outside the border)
+
+
+**DFS/DBScan**: Start with a core point (has at least min number of other core points), add the neighbors, if neighbor is also core point, then continue
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Lecture 4 (09/23)
 ## K-means
 Lloyd's algorithm review
