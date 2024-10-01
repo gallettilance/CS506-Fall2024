@@ -127,3 +127,31 @@ Paritional Clustering:
   - can fail to identify clusters of varying densities 
   - Tends to create clusters of the same density 
   - Notion of density is problematic is high-dimentional spaces
+
+
+# 9/30/2024
+## Soft Clustering 
+- another form of clustering using probabiltiy and weighting 
+- in your dataset there could be the possibiltiy that one value from a point is more probable than another 
+- consider the probabiltiy of ebign some species given that we had previously been different species 
+- $P(S_j|X_i) = \frac{P(X_i|S_j)P(S_j)}{P(X_i)}$
+  - $P(S_j)$ is the prior probability of seeing species $S_j$ 
+  - $P(S_j|X_i)$ is the PDF of species $S_j$ weights evaluated at weight $X_i$ 
+- $P(X_i) = \sum_{j}{P(S_j)P(X_i|S_j)}$
+  - Mixture model -- X comes from a mixture model with k mixture componenets if probability is above 
+- Gaussian Mixture model -- if they are Gaussian mixture for all distributions 
+- Maximum Likelihood Estimation (intuition)
+  - if we flip coid 5 times and get HTTHT, then we would htink that Pr(H) = 0.4
+  - But we actually did was that we found a p (bernoulli param) such that we can maximize the probability of htis specific sequence happening 
+  - the data does not perfectly represent the probability of something happening 
+- With GMM - now we have more parameters to figure out 
+  - need the math to reason about this and solve it 
+- $\Pi_{i}{P(X_i)}=\Pi_{i}{\sum_{j}{P(S_j)P(X_i|S_j)}}$
+  - to find the probabiltiy of this sequence happening again 
+- Expectation Maximization algorithm 
+  - Start with random $\mu, \sum, P(S_j)$
+  - Computer $P(S_j|X_i)$ for alll $X_i$ by using $\mu, \sum, P(S_j)$
+  - computer/update $\mu, \sum, P(S_j)$ from $P(S_j|X_i)$
+  - Repease 2 & 3 until convergence 
+- usually k-means is used to initialize this algorithm 
+- 
