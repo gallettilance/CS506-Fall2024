@@ -1,5 +1,5 @@
 ### 9/23/24
-* finishing lloyd's algo
+## finishing lloyd's algorithm
     * prof way: pseudo code with what methods you'll need, then implement those functions
     * see workseet 3 for lloyds
 * will lloyd's always converge? let's prove by contradiction
