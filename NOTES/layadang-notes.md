@@ -1,3 +1,31 @@
+# Lecture 7 (10/02)
+
+
+# Lecture 6 (09/30)
+Clusters from a probabilistic perspective
+
+Problem statement: given *k* species and *n* number of different weights, can we figure out which species belong to which group of weights?
+
+P(S_j | X_j) probability of belonging to S_j species given weight X_j
+
+Use Baye's rule:
+- P(S_j) prior probability of seeing S_j in general
+- P(X_j | S_j) the PDF (probability) of weight X_j given its species (seeing a Sauropod that weighs 100 tons is way more likely than seeing a Raptor that weighs 100 tons)
+- P(X_j) probability of any species being a weight, so it is combined weight distributions (weighted to number of species) 
+
+## Mixture Model
+X comes from a mixture model with k mixture components if the probability distribution of X is 
+P(X) = summation (of j data points) of P_j (mixture component) * P(X| S_j)
+
+### Gaussian Mixture Model
+P(X) is normally distributed, defined by mean and variance
+
+## Maximum Likelihood Estimation 
+Find *p* that maximizes the chance of seen data sequence happening (a naive approach)
+
+Find critical points by transforming function to preserve critical points (not changing variance)
+
+
 # Lecture 5 (09/25)
 Building a DENDOGRAM with info of which cluster is merging, which shows similarities among groups
 
@@ -38,7 +66,7 @@ Estimate penalty (variance of new cluster) if we were to merge too clusters, the
 
 ## Density-based clustering
 
-Cluster points tahta are densely packed together (allow for weird-shaped clusters)
+Cluster points that are densely packed together (allow for weird-shaped clusters)
 
 **Density**: number of points over given area
 
