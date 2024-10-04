@@ -1,4 +1,44 @@
 # Lecture 7 (10/02)
+Large number of features in dataset that determines a result, needs to be independent of each other
+
+**Rank of matrix / degrees of freedom**: how much information is actually present in the matrix, non-redundancy 
+
+Ideally, isolate effect of each feature 
+
+## Singular Value Decomposition
+Transfer set of features into something that is not related / lowering the rank (remove any relationships and make them **linearly independent**)
+
+**Dimension reduction** through projection onto any of the features, also called feature extraction
+
+n x m: n data points for m features 
+
+Full-rank matrices: max information stored in matrix, so rank is either n or m
+
+## Matrix Factorization
+Or matrix decomposition, where A=UV where U is *n x k* and V is *k x m* which is less to store by just A by itself (k(m+n) instead of (m x n)).
+
+*k* being small means there is a lot of redudant information, not a lot of features
+
+Benefit of low rank matrix, but cost of lower resolution 
+
+### How do we find A=UV?
+
+**Adding the factorization aspect:** Not just $A=UV$ but also $A=U\Sigma V^T$
+- U is n x r
+- V is m x r
+- $\Sigma$ is diagonal matrix that is r x r
+
+Approximate $A$ with $A^k$ as minimizing pairwise distances 
+
+**Frobenius Distance**: the pairwise sum of squares difference in values of two matrices
+
+Singular values are ORDERED by weight, also represents importance
+
+**Mean centering** ensures values are properly scaled / on the same scale
+- Ex. Age is in tens and income is in thousands, in different scales, so it is hard to see relationship on just plot, so they need to be scaled around the mean
+- need to normalize data in some way
+
+## Anomaly Detection
 
 
 # Lecture 6 (09/30)
