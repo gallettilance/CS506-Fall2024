@@ -463,3 +463,128 @@ expectation maximization algorithm
 2. compute $P(S_j|X_i)$ for all $X_i$ using $\mu, \sum, P(S_j)$
 3. compute/update $\mu, \sum, P(S_j)$ from $P(S_j|X_i)$
 4. repeat 2 and 3 until convergence
+
+## 10/2 notes
+characteristics of a dataset to look for
+- all information contained in a is contained in b and vice versa (linear relationship); dimension of this dataset is 2, but there's only 1 dimensional information because there's redunancy. we call that the rank/span. not a desirable relationship between a and b.
+- second graph is more realistic, but we see that changing a changes b so we can't isolate. not a desirable relationship between a and b.
+- third graph we have that as a changes b does not change likely.
+
+SVD a tool to transforme dataset from a set of features that are related to ones that are not linearly related
+
+
+left graph approximates the data the best (with the straight line of red dots)
+
+goal
+- examine this matrix and uncover its linear algebraic properties to:
+    - approximate A with a smaller matrix B that is easier to store but contains similar information as A
+    - dimensionality reduction / feature extraction
+    - anomaly detection and denoising
+
+linear algebra reviews
+- definition: the vectors in a set $V = {v_1, v_2, ..., v_n}$ are linearly independent if:
+    - $a_1v_1 + ... + a_nv_n = o$
+    - can only be satisifed by $a_i = 0$
+    - note: this means no vector in that set can be expressed as a linear combination of other vectors in the set
+- definition: the determinant of a square matrix A is a scalar value that encodes properties about the linear mapping described by A.
+    - 2x2: det(A) = ad - bc
+    - 3x3: det(A) = $a*det(e,f,h,i) - b*det(d,f,g,i) + c*det(d,e,g,h)$
+- defenition: of a square matrix A is a scalar value that encodes properties about the linear mapping described by A. n x n can recursively compute it. how?
+- property: n vectors ${v_1, ..., v_n}$ in an n-dimensional space are linearly independent iff the matrix A: $A = [v_1, ..., v_n] (n x n)$ has a non-zero determinant.
+    - Q. can m > n vectors in an n-dimensional space be linearly independent?
+- definition: the rank of a matrix A is the dimension of the vector space spanned by its column space. this is equivalent to the maximal number of linearly independent columns/rows of A. 
+- definition: a matrix A is full-rank iff rank(A) = min(m,n)
+- note: get the rank of a matrix through the Gram-Schmidt process
+
+matrix factorization
+- any matrix A of rank k can be factored as A = UV where U = n x k and V is k x m
+- to store an n x m matrix A requires storing $m \dot n$ values. however, if the rank of the matrix of A is k, since A can be factored as A=UV which requires storing k(m+n) values
+
+in practice
+- most datasets are full rank despite containing a lot of redunant / similar information
+- but we might be able to approximate the dataset with a lower rank one that contains similar information
+
+approximation
+- goal:
+    - approxiamte A with $A^{(k)}$ (low-rank matrix) such that
+    1. $d(A, A^{(k)})$ is small
+    2. k is small compared to m & n
+
+frobenius distance
+- $d_F(A,B) = ||A-B||_F= \sqrt{\sum_{i,j}(a_{ij}-b_{ij})^2}$ i.e. the pairwise sum of squares difference in values of A and B
+
+approximation
+- definition: when k < rank(A), the rank-k approximation of A (in the least squares sense) is $A^{(k)}=argmin_{(B|rank(B)=k)} d_F(A,B)$
+
+matrix factorization improved
+- not only can we factorize a matrix A of rank k as A = UV. but we can factorize A using a process called singular value decomposition where $A = U\Sigma V^T$
+
+approximation
+- definition: the singular value decomposition of a rank-r matrix A has the form $A = U\Sigma V^T$ where U is n x r, the columns of U are orthogonal and unit length $(U^TU=I)$ and V is m x r, the columns of V are orthogonal and unit length $(V^TV=I)$
+- definition: the singular value decomposition of a rank-r matrix has the form $A = U\Sigma V^T$ where $\Sigma$ is a diagonal matrix with $\sigma_1,...,\sigma_r$ on the diagonal with $\sigma_1 \ge \sigma_2 \ge ... \ge \sigma_r \ge 0$ and $\sigma_i$ is the square root of the eigenvalues of $A^TA$ and are called singular values
+- find $A^{(k)}$ by decomposing A:
+    - $A^{(k)} = U_1\Sigma_1V_1^T$
+    - where $U_1$ is n x k, $\Sigma_1$ is k x k, $V_1$ is m x k
+- the ith singular vector represents the direction of the ith most variance. singular values express the importance / significance of a singular vector
+- property: $d_F(A,A^{(k)})^2 = \sum_{i=k+1}^{r}\sigma_i^2$
+    - note: the larger k is, the smaller the distance
+- to find the right k, you can
+    1. look at the singular value plot to find the elbow point
+    2. look at the residual error of choosing different k
+
+related to principal component analysis (PCA)
+- SVD and PCA are related
+
+dimensionality reduction
+- idea: project the data onto a subspace generated from a subset of singular vectors / principal components
+- we want to project onto the components that capture most of the variance / information in the data
+- which principal component should we project on, A or B?
+
+anomaly detection
+- define O = $A - A^{(k)}$
+- the largest rows of O could be considered anomalies
+
+features that have the same units you don't want to mean-center because you want to see difference in scale
+
+features that are not the same units and on different scales (like age and income) you want to normalize to see better
+
+## 10/7 notes
+doc-to-term similarity X term-to-concept similarity = doc-to-concept similarity
+
+latent semantic analysis
+- inputs are documents. each word is a feature. we can represent each document by:
+    - the presence of each word (0/1)
+    - count of the word (0, 1, ...)
+
+in theory
+- we would have that the lung term would be close to the biology concept and data closer to computer concept while the neuron is in the middle
+
+in practice
+- we don't know the axes -- don't know if we have a "computer science" topic exactly or a "biology" topic/axes
+- we know in the embedding of the semantic meaning of these words lung will be close to brain and data close to information
+- we would have king, queen close and car, bottle close together (why? not sure, we don't know what the axes are)
+
+words with similar semantic meanings should be close
+
+lots of ways to generate embeddings. SVD is one of them
+
+example 1 (with the presence of each word)
+- we have the CS paper on the left, and then multiply by the embedding and term-to-concept similarity = doc-to-concept similarity / CS feature (stronger the similarity the bigger number)
+
+example 2 (with the count of the word)
+- have the CS paper on the left, then term-to-concept similarity, and doc-to-concept similarity (stronger similarity)
+
+how we represent the documents affects the output
+
+how do we get the embedding using SVD?
+- first matrix as doc-to-term similarity
+- first singular vector as CS concept/topic, second vector as MD (medical) concept/topic
+    - the values are the doc-to-concept similarity
+- second matrix has "strength" of each concept/how prevalent they are
+- last matriox as made up of term-to-concept similarities
+
+latent semantic analysis
+- we can better represent each document by:
+    - frequency of the word ($n_i / \sum n_i$)
+    - TfiDf
+    - tf * idf where tf is term frequency in the document and idf is the log(number of documents / number of documents that contain the term)
