@@ -1,0 +1,30 @@
+name: Sync with Main
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # This will run the workflow every Monday at 00:00 UTC
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Fetch all branches
+        run: git fetch --all
+
+      - name: Checkout main branch
+        run: git checkout main
+
+      - name: Merge current branch into main
+        run: |
+          git merge ${{ github.ref_name }}
+          git push origin main
