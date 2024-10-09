@@ -588,3 +588,123 @@ latent semantic analysis
     - frequency of the word ($n_i / \sum n_i$)
     - TfiDf
     - tf * idf where tf is term frequency in the document and idf is the log(number of documents / number of documents that contain the term)
+
+
+## 10/9 notes
+what is classification?
+- there are classes, and predictors/features/attributes
+- classes, predictors/features/attributes -> learn model -> model f: age x tumor size --> {yes, no}
+- what is property/combination of age and tumor size is unique to malignant tumors?
+    - if 2*tumor size > age, it's malignant (older you are, higher tumor threshold)
+
+example with alien -> what is it that allows someone in the U.S. to legally drink?
+- get a dataset and ask people: how old are you? and can you legally drink?
+- what distinguishes points between those in the can't drink class and the can drink class
+- figure out that the threshold between classes is 21 years old
+- sometimes there are many correct answers
+
+- sometimes there are no correct answers (like with the example where we are trying to understand whether or not a student will pass an exam given how many hours they studied)
+- could be because we have wrong or insufficient attributes for the task (could add the exam length as an attribute)
+- could be because the problem just doesn't have an exact solution
+- all models are wrong but some are useful
+
+feasability of a classification task completely depends on the relationship between the attributes (or predictors) and the class
+
+for example if we used age instead of weight for elephants and rhinos
+- age cannot distinguish rhinos and elephants
+
+takeaways
+- there could be many correct answers
+- there could be no correct answers
+    - but the model could still be useful if it's more or less correct most of the time
+- whether a task is feasible depends on:
+    - the relationship between the predictors and the class
+
+lots of questions
+- how do we know if we have good predictors for a task?
+- how do we know if we have done a good job at classification?
+
+how do we know if we have good predictors?
+- what constitutes a good feature/predictor?
+    - with the example, the first one has no discrepancy really between 1,2, and 3 star reviews (not good), second case has more discrepancy but not really, and the third scenario is the most ideal (where there are more distinct review lengths for each star)
+- what constitutes a good set of features/predictors?
+    - we want to see some relationships between the features and the class, but we don't want redundant relationships between features (where if we included feature 1 it would include feature 2 basically if it was linear relationship it wouldnt be useful)
+- BUT...
+    - correlation is not causation
+- correlation vs causation
+    1. temperature and ice cream sales are positively correlated
+        - temperature increases cause ice cream sales to spike
+            - BUT in the desert where there is no ice cream, there is no spike in sales
+        - ice cream sale increases do not cause the temperature to reviews
+    2. sleeping with shoes on is strongly correlated with waking up with a headache
+        - but neither causes the other...
+        - there's a third common factor causing this correlation: going to bed drunk
+- testing for causality requires specific testing/experimentation with a control group
+
+how do we know we've done well at classification?
+- testing without cheating. learning not memorizing.
+    - split up our data into a training set and a separate testing set
+    - use the training set to find patterns and create a model
+    - use the testing set to evaluate the model on data it has not seen before
+- also allows us to check that we have not learned a model TOO SPECIFIC to the dataset
+    - overfitting vs underfitting
+    - goal is to capture general trends
+        - watch out for outliers and noise
+- the types of mistakes made matters
+- types of mistakes
+    - testing for a rare disease
+        - out of 1000 data points, only 10 have this rare disease. a model that simply tells folks they don't have the disease will have an accuracy of 99%
+
+classification
+- training step
+    - create the model based on the examples/data points in the training set
+- testing step
+    - use the model to fill in the blanks of the testing set
+    - compare the result of the model to the true values
+
+instance-based classifiers
+- use the stored training records to predict the class label of unseen causes
+- rote-learners:
+    - perform classification only if the attributes of the unseen record exactly match a record in our training set
+
+instance-based classifiers: training step
+- data -> learn model -> there is no training step per se. the dataset itself is the model
+
+instance-based classifiers: applying the model
+- take a given age and tumor size and look and see if the malignant is yes or no
+
+nearest neighbor classifier
+- use SIMILAR records to perform classification
+
+K nearest neighbor classifier
+- requires:
+    - training set
+    - distance function
+    - value for k 
+- how to classify an unseen record:
+    1. compute distance of unseen record to all training records
+    2. identify the k-nearest neighbors
+    3. aggregate the labels of these k neighbors to predict the unseen record class (EX: majority rule)
+- aggregation methods:
+    - majority rule
+    - weighted majority based on distance $w=1/d^2$
+- scaling issues:
+    - attributes should be scaled to prevent distance measures from being dominated by one attribute. example:
+        - age: 0 -> 100
+        - income: 10k -> 1 million
+
+scaling attributes
+
+k nearest neighbor classifier
+- choosing the value of k:
+    - if k is too small ->
+        - sensitive to noise points + doesn't generalize well
+    - if k is too big ->
+        - neighborhood may include points from other classes
+
+k nearest neighbor classifier
+- pros:
+    - simple to understand why a given unseen record was given a particular class
+- cons:
+    - expensive to classify new points
+    - KNN can be problematic in high dimensions (curse of dimensionality)
