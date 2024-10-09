@@ -1,30 +1,42 @@
-name: Sync with Main
+name: Auto Sync with Upstream
 
 on:
   schedule:
-    - cron: '0 0 * * 1' # This will run the workflow every Monday at 00:00 UTC
-  workflow_dispatch:
+    - cron: '0 */2 * * *'  # Runs every 2 hours
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   sync:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
-      - name: Setup Git
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+    - name: Configure Git
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
 
-      - name: Fetch all branches
-        run: git fetch --all
+    - name: Add upstream remote
+      run: |
+        git remote add upstream https://github.com/gallettilance/CS506-Fall2024.git
+        git fetch upstream
 
-      - name: Checkout main branch
-        run: git checkout main
+    - name: Check for changes
+      id: check_changes
+      run: |
+        git diff --quiet upstream/main main || echo "changes=true" >> $GITHUB_OUTPUT
 
-      - name: Merge current branch into main
-        run: |
-          git merge ${{ github.ref_name }}
-          git push origin main
+    - name: Create Pull Request
+      if: steps.check_changes.outputs.changes == 'true'
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: sync-upstream
+        title: 'Sync with upstream repository'
+        body: 'This PR syncs changes from the upstream repository.'
+        commit-message: 'Sync with upstream repository'
+        base: main
