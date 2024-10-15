@@ -708,3 +708,66 @@ k nearest neighbor classifier
 - cons:
     - expensive to classify new points
     - KNN can be problematic in high dimensions (curse of dimensionality)
+
+# 10/15 notes
+how a decision tree works
+- given some info like refund=No, martial status=single, income=70k we can get an answer for class
+    - we start at the root of the tree. we see that its refund=No so we go to the right of the tree for that
+    - then we look at marital status, and go down the single side on the left
+    - then we look at income and go to the less than 80k side
+    - then we get the answer
+
+how do we learn it?
+- what happens if marital status == married? --> we always have that the class = no
+
+
+hunt's algorithm
+- recursive algorithm
+    - repeatedly split the dataset based on attributes
+- base cases:
+    - IF split and all data points in the same class
+        - great! predict that class!
+    - IF split and no data points
+        - no problem! predict a reasonable default
+- the recursion (IF split and data points belongs to more than one class)
+    - find the attribute (and best way to split that attribute) that best splits the data
+
+example
+
+many ways to split a given attribute
+- binary split
+- multi-way split
+
+
+continuous variables
+- use binning before running the decision tree
+    - can use clustering for that example
+- compute a threshold while building the tree
+    - A > t vs A < t 
+
+need a metric
+- that favors nodes like this: NO = 1, YES = 7
+- over nodes like this: NO = 4, YES = 4
+
+GINI index
+- denote $p(j|t)$ as the relative frequency of class j at node T
+- GINI(t) = $1 - \sum_j p(j|t)^2$
+- best possible GINI would be 0
+- worst possible GINI would be 1/2
+- $GINI_split = \sum_{t=1}^{k} \frac{n_t}{n} GINI(t)$
+    - where $n_t$ = number of data points at node t and n = number of data points before the split (parent node)
+
+limitations
+- easy to construct a tree that is too complex and overfits the data
+- solutions:
+    - early termination (stop before the tree is fully grown - use majority vote at leaf node)
+        - stop at some specified depth
+        - stop if size of node is below some threshold
+        - stop if GINI does not improve
+    - pruning (create fully grown tree then trim)
+
+other measures of node purity
+- entropy
+    - $Entropy(t) = -\sum_j p(j|t)log(p(j|t))$
+- misclassification error
+    - $Error(t) = 1 - max_j (p(j|t))$
