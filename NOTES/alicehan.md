@@ -205,3 +205,64 @@ Paritional Clustering:
   - if word is very present, then we wan tot penalize by its freqeuncy across other documents..?
     - eg. "the" would be super frequent, bit not important, so penalize so it won't be repressented 
   
+# 10/9/2024
+## Classification
+- assigning points to a class or category based on certain attributes 
+- Can have many classes (needs to be finitely many) and predictors/features 
+- through classification, build a model which is mathematical function that allows us to classify the data 
+- sometimes no correct answers -- no way to distinguish between groups
+  - could be because we have wrong or insufficient attributes for the task 
+  - could be because the problem just doesnt have an exact solution (some overlap)
+    - but that would also ive us some useful information 
+- the feasability of a classification task completely depends on the relationship between attributes and the class
+- How do we know if we have good predictors for a task? 
+  - look for correlation between the predictor and categories 
+  - BUT correlation does not = causation 
+- How do we know we have done a good job at classification?
+  - testing without cheating -- learning not memorizing 
+  - split dataset into training and testing 
+    - use training to find patters and create model 
+    - use testing to evaluate the model on data it has not seen 
+  - allows us to check that we have not learned a model TOO specific to the dataset 
+    - overfitting vs. underfitting 
+- underfitting = too loose to the data 
+- overfitting = too tight to the training 
+- how do we know we've done well at classification 
+  - Testing for a rare disease: our of 1000 data points, only 10 have this rare disease. A model that simply tells everyone they don't have diease will have accuracy of 99%
+- Classification tools:
+  - training step - create the odel based on the examples/data points in the training set 
+  - testing step - use the model to fill in the blanks of the testing set and compare the results to the true values 
+- Instance-Based Classifiers
+  - Use the stored training records to predict the class label of unseeen cases 
+  - Rote learners: perform classification only if the attributes of the unseen record exactly match a record in our training set 
+    - next best: find something close to the point thats already there 
+- K Neaerest Neighbor Classifier 
+  - pick K similar records and aggregate those records to create classificationi 
+  1. compute distance of unseen record to al training 
+  2. identify the k nearest neighbors
+  3. aggregate the labels of these k neighbors to predict the unseen record class (ex. majority rule)
+  - if there is a tie, we could do a weighted majority instead to take into acount the distance of each point from the data we are looking at 
+  - varying K varies our model 
+    - if too small -> sensitive to noise points + doesn't generalize well
+    - if too large -> neighborhood may include points from other classes 
+  - need to scale if they have different units 
+  - pros: simple to nderstand why unseen record was ggiven particular class
+  - cons: expensive; can be problematic in high dimensions
+
+
+# 10/15/2024
+## Decision Trees 
+- Decision Tree - given information about an entity, we can see what the result should be 
+  - look at the value of each attribute and follow which value matched that in the decision tree 
+- Hunt's Algorithm 
+  - recursive algorithm -- repeatedly splot the dataset based on attributed 
+  - base case:
+    - if splot and all data poitns in the same class -- predict that class
+    - if split and no data points -- predict a reasonable default 
+  - can have binary splits or multi-splits, but jut need to be clear how to classify after the splits 
+  - determining bins can be a preprocessing step or do it as you are building the trees 
+- GINI index - denote p(j|t) as the relative frequency of p at node t 
+  - GINI(t) = 1 - sum(p(j|t)^2)
+  - best possible GINI = 0; worst possible GINI = 1/2 
+  - to find the GINI of the whole node, then we can average the GINIs of each of the individual nodes 
+
