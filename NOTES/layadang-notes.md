@@ -1,3 +1,48 @@
+# Lecture 10 (10/15)
+From last lecture: intro to classification, relationship between features and class (category)
+
+**Instance-based classifiers**: if the instance appears in the dataset, just match the output, 
+
+What if it is not in dataset? If it is close (some distance, has some neighbor, k-closest one), then take that output!
+- "points that are further away has lower power"
+
+--> **K-closest Neighbor Model**: output/decision determined by nearby neighbor of the point, has a decision boundary
+
+## Decision Trees
+
+Start at root of a tree, look at value, traverse corresponding branch, etc. (pretty intuitive)
+
+What if a combination of features never appeared in the dataset? Define some default class
+
+**Hunt's algorithm**: repeatedly split dataset based on attribute values (recursive)
+- Base case:
+    - if split and all data points in the same class, predict that class 
+        - So all REFUND=YES, then CLASS=NO
+    - if split and no datapoints, predict reasonable default 
+        - So REFUND=NO, different classes, split MARTIAL STATUS 
+        - MARTIAL STATUS=MARRIED, all classes are NO
+        - etc.
+
+Order of features to splits matter, how do we define that order? 
+- find one with more "even" split rather than ones that are not even
+- alternatively, do bins until they're pretty even
+- binary split or multi-split? 
+
+For **continuous variables**: use binning before running (pre-processing) OR compute threshold while running (A>t or A<t, scan for best threshold)
+
+**GINI Index**: p(j | t) as relative frequency of class *j* for node *t*
+- ideal GINI is 0 (data is perfectly separated), worse is (1/2) (50% separated, no valuable info)
+- Get GINI of the ENTIRE node recursively
+
+**over-fitting**: too specific to our training set. will not apply to the test data
+- if we apply GINI continuously, too many splts
+- fix: early termination before tree is fully grown or prune the full tree
+
+Other metrics for node purity:
+- **Entropy** -sum of freq * log(freq)
+- **Misclassification Error** 1-max(freq)
+
+
 # Lecture 7 (10/02)
 Large number of features in dataset that determines a result, needs to be independent of each other
 
