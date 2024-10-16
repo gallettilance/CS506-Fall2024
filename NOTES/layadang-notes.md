@@ -1,3 +1,10 @@
+# Lecture 11 (10/16)
+
+**conditional probability**: changing the context of a probability
+
+**Bayesian classifiers**: P(C | A1 and A2 and...) conditional probability based on class (C) and features (As)
+- maximize this by estimating P(A1 and A2 and...| C)
+
 # Lecture 10 (10/15)
 From last lecture: intro to classification, relationship between features and class (category)
 
