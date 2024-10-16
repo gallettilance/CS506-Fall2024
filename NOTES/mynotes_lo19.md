@@ -771,3 +771,140 @@ other measures of node purity
     - $Entropy(t) = -\sum_j p(j|t)log(p(j|t))$
 - misclassification error
     - $Error(t) = 1 - max_j (p(j|t))$
+
+
+## 10/16 notes
+naive bayes
+
+conditional probability
+- recall $P(A|C) = \frac{P(A \cap C)}{P(C)}$
+
+bayes theorem
+- $P(A|C) = \frac{P(C|A)P(A)}{P(C)}$
+- $P(C|A) = \frac{P(A \cap C)}{P(A)}$
+- $P(A|C) = \frac{P(A \cap C)}{P(C)}$
+
+example
+- given
+    - meningitis causes a stiff neck 50% of the time
+    - prior probability of any patient having meningitis is 1/50,000
+    - prior probability of any having a stiff is 1/20
+- if a patient has a stiff neck, what is the probability that they have meningitis?
+- $P(M|S) = \frac{P(S|M)P(M)}{P(S)}$
+
+bayesian classifiers
+- given an unknown example:
+    - $(A_1 = a_1, A_2 = a_2, ..., A_m = a_m)$
+- predict the class C that maximizes $P(C|A_1 = a_1, A_2 = a_2, ..., A_m = a_m)$
+- example: binary class {yes, no}
+- to classify unseen record (marital status = "married", income=100k)
+1. Compute P(yes | marital status = "married" and income = 100k)
+2. Compute P(no | marital status = "married" and income = 100k)
+3. Compare and predict the class that has the highest probability given the attribute values
+- how do we estimate $P(C|A_1 = a_1, A_2 = a_2, ..., A_m = a_m)$ from the data?
+    - $P(C|A_1 \cap A_2 \cap ... \cap A_n) = \frac{P(A_1 \cap A_2 \cap ... \cap A_n | C)P(C)}{P(A_1 \cap A_2 \cap ... \cap A_n)}$
+    - $P(A_1 \cap A_2 \cap ... \cap A_n)$ does not depend on C 
+    - maximizing $P(C|A_1 \cap A_2 \cap ... \cap A_n)$ is equivalent to maximizing the numerator $P(A_1 \cap A_2 \cap ... \cap A_n | C)P(C)$
+- so how do we estimate $P(A_1, A_2, ..., A_n | C)P(C)$ from the data?
+    - $P(C)$ is easy - why? -> we can just count how many instances of each class we have
+    - but $P(A_1,A_2,...,A_n|C)$ is tricky because it requires knowing the joint distribution of the attributes...
+- can we make some assumptions about the attributes in order to simplify the problem?
+    - assume that $A_1, A_2, ..., A_n$ are independent!
+    - then..
+        - $P(A_1,A_2,...,A_n|C) = P(A_1|C)P(A_2|C)...P(A_n|C)$
+        - can we estimate $P(A_j|C)$ from the data?
+            - yes! just count the occurrence of $A_j$ for that class!
+
+example
+- refund, marital status, income, class table
+- P(class = Yes) = 3/10
+- P(marital status = "single" | class = yes) = 2/3
+- P(marital status = "married" | class = no) = 4/7
+- P(income = 120k | class = No) = 1/7
+
+continuous attributes
+- binning / 2-way or multi-way split
+    - create new attribute for each binary
+    - issue is that these attributes are no longer independent
+- PDF estimation
+    - assume attribute follows a particular distribution (example: normal)
+    - use data to estimate parameters of the distribution
+
+example
+- assume normal distribution
+- P(income = 120k | class = No)
+    - sample mean = 110
+    - sample variance = 2975
+    - $P(Income = 120|No) = \frac{1}{\sqrt{2\pi}(54.54)}e^{-\frac{(120-110)^2}{2(2975)}} = 0.0072$
+
+putting it all together
+- test record: X = (Refund = No, Married, Income = 120k)
+    - P(X|No) = P(Refund = No | No)P(Married|No)P(Income=120k|No) = $4/7 * 4/7 * 0.0072 = 0.0024$
+    - P(X|Yes) = P(Refund=No|Yes)P(Married|Yes)P(Income=120k|Yes) = $1 \dot 0 \dot 1.2 \dot 10^{-9} = 0$
+    - since P(X|No)P(No) > P(X|Yes)P(Yes) -> predict No
+
+limitations
+- if one of the conditional probabilities is zero, the entire expression becomes zero..
+- original estimate of $P(A_i|C) = \frac{N_{ic}}{N_c}$
+- laplace estimate: $P(A_i|C) = \frac{N_{ic} + 1}{N_c + constant}$
+
+question
+- can you use naive bayes to predict class C based on the following two features?
+    1. weight
+    2. height
+
+
+model evaluation
+
+confusion matrix
+- predicted class on top, actual class on the side
+
+accuracy can be misleading
+- binary classification problem where:
+    - number of class 0 examples: 9990
+    - number of class 1 examples: 10
+- a model that predicts everything to be class 0 will have an accuracy of 99.9%
+
+cost matrix
+- have costs associated with C(Yes|Yes) = -1, C(No|Yes) = 100, C(Yes|No) = 1, C(No|No) = 0
+
+other metrics
+- precision $\frac{a}{(a+c)}$
+- recall $\frac{a}{(a+b)}$
+- F-measure: $2RP / (R+P)$
+
+methods of estimation
+- goal: get a reliable estimate of the performance of the model on unseen data
+- holdout:
+    - ex: reserve 1/4 of the dataset for testing and use 3/4 for training
+- cross validation:
+    - partition into K disjoint subsets
+    - K-fold: train on K-1 partitions, test the remaining on
+    - K = n: leave one out
+
+validation set
+- for tuning parameters
+
+ensemble methods
+
+the idea
+- suppose you have trained 17 different classifiers on a dataset
+    - every classifier has error rate e = 0.2
+    - assume all classifiers are independent
+- in order to classify a new record we poll all 17 classifiers and take the class that the majority agrees on
+- what is the probability that this ensemble classifier makes a wrong prediction?
+- the majority needs to make a mistake (i.e. at least 9 out of 17 make mistakes)
+    - $P(X \geq 9) = sum_{k=9}^{17} C(17,k)(0.2)^k(1-0.2)^{17-k}=0.002581463$
+
+
+how to generate independent classifiers?
+- by generating samples of data to train on
+    - bagging
+    - boosting
+
+bagging
+- build a classifier on each bootstrapped sample
+
+boosting
+- an adaptive sampling process to chagne the sampling distribution based on difficult-to-classify examples
+- start with all samples having equal probability of being selected. next boosting round, increase the weights of those samples that were misclassified, decrease the weights of those samples that were correctly classified
