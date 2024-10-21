@@ -5,6 +5,31 @@
 **Bayesian classifiers**: P(C | A1 and A2 and...) conditional probability based on class (C) and features (As)
 - maximize this by estimating P(A1 and A2 and...| C)
 
+## Model Evaluation
+how do we know we have a good model?
+
+**confusion and cost matrix**: award points for correct prediction, penalize for incorrect (scale by however much needed)
+- determined with the help of experts/context, measureable somehow?
+
+## Ensemble Methods
+
+17 classifers are trained 
+- assume independence
+- all equal error rate, 0.2
+
+majority needs to be wrong (at least 9 out of 17 are wrong), so our probability of error is low
+- 0.0025 accuracy is much lower when we combine these accuracies 
+
+### Bootstrapping
+**baggging** classifer: automatically generate classifiers based on samples (sample with replacement to generate datasets)
+- computationally expensive
+
+**boosting**: change classifiers based on how well they can predict certain examples
+- expose it to ideas that it doesn't work with / bad examples
+
+Then, give each classifier a particular weight. (AdaBoost)
+
+
 # Lecture 10 (10/15)
 From last lecture: intro to classification, relationship between features and class (category)
 
@@ -275,7 +300,7 @@ General algorithm idea: continue to adjust cluster and data points and assign da
 (3) compute the new centers / true centers as the means of each cluster 
 (4) repeat
 
-# Problems
+## Problems
 Elongated clusters with naturally high variance means it will be split up, despite beloning together
 
 Can only make circular/bobular cluster shapes because of the mean-centering properties
