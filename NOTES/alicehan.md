@@ -266,3 +266,9 @@ Paritional Clustering:
   - best possible GINI = 0; worst possible GINI = 1/2 
   - to find the GINI of the whole node, then we can average the GINIs of each of the individual nodes 
 
+# 10/16/2024
+## Naive Baye's 
+- conditional probablility 
+- bayein clsssifierd
+- cost matrix
+
