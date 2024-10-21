@@ -908,3 +908,123 @@ bagging
 boosting
 - an adaptive sampling process to chagne the sampling distribution based on difficult-to-classify examples
 - start with all samples having equal probability of being selected. next boosting round, increase the weights of those samples that were misclassified, decrease the weights of those samples that were correctly classified
+
+
+## 10/21 notes
+support vector machines
+
+example
+- positive class and a negative class
+- nearest neighbor decision boundary
+- decision tree split on attribute x_1
+- $P(C|X_1X_2) = 1/2$ (Naive Bayes)
+
+SVM: find the widest street that separates our classes - the dotted line in the middle is our decision boundary
+
+how do we define this street? what is the format of the equation of this line/decision boundary?
+- $w_1x_1 + w_2x_2 + b = 0$
+- $w^Tx + b = 0$
+
+suppose we found this decision boundary, how would we classify an unknown point u?
+- $[u_1, u_2]$
+- for the line, $w_1x_1 + w_2x_2 + b = 0$ -> $w^Tx + b = 0$
+- $w_1u_1 + w_2u_2 + b$ -> $w^Tu + b$
+- DECISION RULE: $\vec{w} * \vec{u} + b \geq 0$ then +
+- $w^Tx + b = -1$, $w^Tx + b = 1$, $w^Tx + b = 0$
+
+there are many w's and b's 
+- $c*w^Tx + c*b = 0$
+
+what happens if c > 1?
+- $c*w^Tx + c*b = 0$, $c*w^Tx + c*b = -1$, $c*w^Tx + c*b = 1$
+- get a smaller street
+
+what happens if 0 < c < 1?
+- $c*w^Tx + c*b = 0$, $c*w^Tx + c*b = -1$, $c*w^Tx + c*b = 1$
+- get a wider street
+
+wide as possible, means $w$ as small as possible
+
+assuming our data is linearly separable, we want to impose the constraint that none of our samples can be in the street. that is:
+- $\vec{w} * \vec{x_+} + b \geq 1$
+- $\vec{w} * \vec{x_-} + b \leq -1$
+
+to move the street in the direction of a point
+- pick a step size a, in order to move a steps in the direction of x 
+- $w_{new} = w_{old} + y_i * x * a$
+- $b_{new} = b{old} + y_i * a$
+
+full algorithm (perceptron algorithm)
+- start with random line $w_1x_1 + w_2x_2 + b = 0$
+- define:
+    - a total number of iterations (ex: 100)
+    - a learning rate a (not too big not too small)
+    - an expaqnding rate c (< 1 but not too close to 1)
+- repeat number of iterations times:
+    - pick a point $(x_i, y_i)$ from the dataset
+    - if correctly classified: do nothing
+    - if incorrectly classified:
+        - adjust $w_1$ by adding $(y_i * a * x_1), w_2$ by adding $(y_i * a * x_2)$, and b by adding $(y_i * a)$
+    - expand or retract the width c (multiply the new line by c)
+
+what contributes to the widest street?
+- intuitively:
+- this point is called a support vector
+
+find the widest street subject to...
+- we want our samples to lie beyond the street. that is:
+    - $\vec{w} * \vec{x_+} + b \geq 1$
+    - $\vec{w} * \vec{x_-} + b \leq -1$
+- note: for unknown u, we can have 
+    - $-1 < \vec{w} * \vec{u} + b < 1$
+- lets introduce a variable:
+    - $y_i$ = +1 if $x_i$ is a + sample, -1 if $x_i$ is a - sample
+    - note: this is effectively the class label of $x_i$
+- if we multiple by our sample decision rules by this new variable:
+    - $y_i(\vec{w} * \vec{x_i} + b) \geq 1$
+- meaning for $x_i$ on the decision boundary we want:
+    - $y_i(\vec{w} * \vec{x_i} + b) - 1 = 0$
+
+
+how to find the width of the street
+- we know that WIDTH = $(\vec{x_+} - \vec{x_-}) * \frac{\vec{w}}{||\vec{w}||}$ for $\vec{x_-}$ and $\vec{x_+}$ points on the boundary
+- and since they are on the boundary we know that $y_i(\vec{w} * \vec{x_i} + b) - 1 = 0$
+- hence, WIDTH = $\frac{2}{||\vec{w}||}$
+
+what does that mean?
+- size of w is inversely proportional to the width of the street
+- aligns with what we found previously
+
+how to find the widest street
+- goal is to maximize the width $max(\frac{2}{||\vec{w}||}) = min(||\vec{w}||) = min(\frac{1}{2}||\vec{w}||^2)$
+- subject to: $y_i(\vec{w} * \vec{x_i} + b) - 1 = 0$
+- can use Lagrange multipliers to form a single expression to find the extremum of:
+    - $L = \frac{1}{2}||\vec{w}||^2 - \sum_i a_i[y_i(\vec{x_i} * \vec{w} + b) - 1]$
+    - where $a_i$ is 0 and $x_i$ is not on the boundary
+- let's take the partial derivative of L with respect to w to see what w looks like at the extremum of L
+- $\frac{\partial L}{\partial \vec{w}} = \vec{w} - \sum_i a_iy_i\vec{x_i} = 0$
+    - $\vec{w} = \sum_i a_iy_i\vec{x_i}$
+- means w is a linear sum of vectors in our sample/training set!
+
+$\sum_i a_i < x_i, x > +b \geq 0$ then  +
+
+to move the street in the direction of a point
+- $a_{i, new} = a_{i, old} + y_i * a$
+- $b_{new} = b_{old} + y_i * a$
+
+how to find the widest street
+- goal to maximize the width
+    - $min(\frac{1}{2}||w||^2 + \lambda \sum_i e_i)$
+- subject to:
+    - $y_i(\vec{w} * \vec{x_i} + b) \geq 1 - e_i$
+
+option 1: soft margins
+- can allow for some points in the dataset to be misclassifeid
+
+option 2: change perspective
+- use $\phi$
+
+but how to find $\phi$?
+- turns out we don't find or define a transformation $\phi$
+- recall: $\sum_i a_i < x_i, x > +b \geq 0$ then  +
+- we only need to define $K(\vec{x_i}, \vec{x_j}) = \phi(\vec{x_i}) * \phi(\vec{x_j})$
