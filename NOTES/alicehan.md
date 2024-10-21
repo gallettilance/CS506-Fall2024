@@ -272,3 +272,25 @@ Paritional Clustering:
 - bayein clsssifierd
 - cost matrix
 
+
+# 10/21/2024
+## Support Vector Machine
+- we want to find the best line to separate the data points into groups 
+  - add 2 lines on either side of boundary to show the distance from the data to the boundary line; want the widest set of lines -- call this a street 
+- how do we define this street? 
+  - equation of line (like y = mx + b)
+  - have an equation for central line, and then define the equations for the lines on either side 
+- to classify an unknown point, you can plug the values into the equation 
+- if you multiply by a constant, then the decision boundary doesn't change 
+  - the boundary does not change, but the width of the street cahnges 
+  - multiplying by big constant makes street smaller, smaller constant makes street bigger 
+- so if magnitude of w is larger, then the street is smaller 
+- to move street in the direction of a point, pick a step size a, in order to move a steps in the ddirection of x
+  - $w_{new} = w_{old} + y_i + x + a$
+  - $b_{new} = b_{old + y_i + a}$
+- find the widest street subject to...
+  - y_i = 1 if it is positive example; -1 if it is a negative example
+  - x+ - x- is not enough because we ned it to be perpendicular
+  - we project it onto w, which is perpendicular, and then normalize by the length of w. 
+  - (makes sense for when we said that w is inversely proportional to the width of the street)
+
