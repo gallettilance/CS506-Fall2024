@@ -1,3 +1,32 @@
+# Lecture 12 (10/21)
+## Support Vector Machines (SVMs)
+Find the widest decision boundary that separates the data set ("widest street")
+- the two sides' equations are arbitrary (+1 / -1, etc.)
+- equation of linear decision boundary (w^Tx+b=0)
+
+Multiplying by a constant does not make the decision boundary change (c * w^Tx+ c * b=0)
+- But the width of the street changes
+- Inversely proportional to magnitude of w
+
+The width of the street is inversely proportional to magnitude of w
+
+How do we determine a good line? Move the line towards direction of misclassified point
+
+None of the dataset points should be in the street
+
+## Perceptron's Algorithm
+1. Start with random lninne
+2. Define: 
+    - a total number of iterations
+    - a learning rate (a)
+    - an expanding rate (c<1)
+3. Repeat for each iteration:
+    - pick a point from dataset
+    - if correct, do nothing, else:
+        - Adjust w1 by adding (yi * a * x1), w2 by adding (yi * a * x2), and b by adding (yi * a)
+    - expand or retract by width of c
+
+ 
 # Lecture 11 (10/16)
 
 **conditional probability**: changing the context of a probability
