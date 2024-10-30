@@ -1,3 +1,30 @@
+# Lecture 13 (10/23)
+
+## Midterm Launch
+
+Two parts: 3-page write-up about findings and reproducible notebook of final Kaggle submission (70% of grade)
+- The other 30% is Kaggle results
+
+Key notes:
+* Anything is fine except for deep learning! 
+* Really, submitting twice is enough "if you're good at data science"
+    * Limit is 5 submissions a day
+* Plots are part of the 3-page limit, no appendix
+* COMPETITION ENDS AT 4:30 PM MONDAY !
+* Monetary prizes, you can get extra prizes if you beat the TAs' scores
+
+Do:
+* NOT cheat by finding the average rating of the movie (you are including the review in the average)
+* NOT append data from outside, only use the training data
+* Clean the data and check for NaNs
+* Make lots of new features
+* Keep track of all models
+
+
+### Lecture today is making a Kaggle submission w/ starter code
+#### (No attendance)
+
+
 # Lecture 12 (10/21)
 ## Support Vector Machines (SVMs)
 Find the widest decision boundary that separates the data set ("widest street")
