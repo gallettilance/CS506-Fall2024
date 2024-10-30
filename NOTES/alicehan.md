@@ -294,3 +294,10 @@ Paritional Clustering:
   - we project it onto w, which is perpendicular, and then normalize by the length of w. 
   - (makes sense for when we said that w is inversely proportional to the width of the street)
 
+
+# 10/30/2024
+## Linear Regression
+- variation around linear regression is same as variation if you collect data at one specific x value 
+- linear matters for beta and not x 
+
+
