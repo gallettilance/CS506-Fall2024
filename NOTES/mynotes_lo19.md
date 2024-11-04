@@ -1101,3 +1101,99 @@ an unbiased estimator
     - $= \beta$
 
 is linear regression just PCA?
+
+## 11/4 notes
+evaluating our regression model
+- some notation
+    - $y_i$ is the "true" value from our data set (i.e. $x_i\beta + \epsilon_i$)
+    - $\hat{y_i}$ is the estimate of $y_i$ from our model (i.e. $x_i\beta_{LS}$)
+    - $\bar{y}$ is the sample mean all $y_i$
+    - $y_i - \hat{y_i}$ are the estaimtes of $\epsilon_i$ and are referred to as residuals
+
+example figure
+- distance between prediction and actual y $y_i - \hat{y_i} = e_i ~ N(0,\sigma^2)$
+- prediction line is $\hat{y} = X\beta_{LS}$
+- actual line $y=X\beta$
+
+metric for evaluation the fit of our model?
+- is the value of the loss function sufficient? i.e.
+    - $||y - X\beta||_2^2 = \sum_{i}^{n} (y_i - \hat{y_i})^2$
+
+exercise
+- show that TSS = ESS + RSS
+- $TSS = \sum_i (y_i - \bar{y})^2$
+    - $= \sum_i (y_i - \hat{y_i} + \hat{y_i} - \bar{y})^2$
+    - $= \sum_i (y_i - \hat{y_i})^2 + \sum_i (\hat{y_i} - \bar{y})^2 + 2 \sum_i (y_i - \hat{y_i})(\hat{y_i} - \bar{y_i})$
+    - = ESS + RSS + $2 \sum_i (y_i - \hat{y_i})(\hat{y_i} - \bar{y_i})$
+        - $\sum_i (y_i - \hat{y_i})(\hat{y_i} - \bar{y}) = \sum_i (y_i - \hat{y_i})\hat{y_i} - \bar{y} \sum_i (y_i - \hat{y_i})$
+        - $= \hat{\beta_0} \sum_i (y_i - \hat{y_i}) + \hat{\beta_1} \sum_i (y_i - \hat{y_i})x_i - \bar{y} \sum_i (y_i - \hat{y_i})$
+
+evaluating our regression model
+- TSS = $\sum_{i}^{n} (y_i - \bar{y})^2$ (this is a measure of the spread of $y_i$ around the mean of y)
+- ESS = $\sum_{i}^{n} (\hat{y_i} - \bar{y})^2$ (this is a measure of the spread of our model's estimates of $y_i$ around the mean of y)
+- $R^2 = \frac{ESS}{TSS}$
+    - $R^2$ measures the fraction of variance that is explained by $\hat{y}$ (our model)
+    - best can be 1 ($y_i = \hat{y_i}$)
+    - worst it can be is 0 (only thing that changes here is our model which is $\hat{y_i}$ -> how do we make that value 0? -> our prediction is just the average, or $\bar{y}$)
+- we are minimizing with our linear model RSS = $\sum_{i}^{n}(y_i - \hat{y_i})^2$
+- $R^2 = \frac{ESS}{TSS} = 1 - \frac{RSS}{TSS}$
+
+hypothesis testing
+- dataset -> linera model -> $\beta = 2$
+    - could the real beta be 5?
+- HHHHHH (the coin is probably not fair)
+- HTHHTHTT (the coin could be fair)
+- assume beta = 5 -> (dataset -> linear model -> beta = 2) <-- how likely are we to observe this?
+    - is there enough evidence that we can reject that assumption/hypothesis?
+- each parameter of an independent variable x has an associated confidence interval and t-value + p-value
+- if the parameter/coefficient is not significantly distinguishable from 0 then we cannot assume that there is a significant linear relationship between that independent variable and the observations y (i.e. if the interval includes 0 or if the p-value is too large)
+
+hypothesis test
+- we want to know if there is evidence to reject the hypothesis H0: $\beta = 0$ (i.e. that there is no linear relation between X and Y) using the information from $\beta$ hat
+- we want to know the largest probability of obtaining the data observed, under the assumption that the null hypothesis is correct
+- how do we obtain that probability?
+- under the null hypothesis what should be the distribution of the normalized estimates? T-distribution (paramaterized by the sample size)
+- we can then compute the t-value that corresponds to the sample we observed
+- and then compute the probability of observing estimates of $\beta$ at least as extreme as the one observed. (i.e. trying to find evidence against H0)
+- this probability is called a p-value
+- a p-value smaller than a given threshold would mean the data was unlikely to be observed under H0 so we can reject the hypothesis H0. if not, then we lack the evidence to reject H0
+- which parameters should we not include in our linear model?
+
+confidence intervals
+- an interval that describes the uncertainty around an estimate (here this could be $\beta$ hat)
+- goal: for a given confidence level (lets say 90%), construct an interval around an estimate such that, if the estimation process were repeated indefinitely, the interval would contain the true value (that the estimate is estimating) 90% of the time
+
+Z-values
+- these are the number of standard deviations from the mean of N(0,1) distribution required in order to contain a specific % of values were you to sample a large number of times
+- to find the 0.95 z-value (the value z such that 95% of the observations lie within z standard deviations of the mean $(\mu \pm z * \sigma)$) you need to solve:
+    - $\int_{-z}^{z} \frac{1}{2\pi}e^{-\frac{1}{2}x^2}dx = 0.95$
+- the 0.95 z-value is 1.96
+- this means 95% of observations from $N(\mu, \sigma)$ lie within 1.96 standard deviations of the mean $(\mu \pm 1.960 * \sigma)$
+- if we get a sample from a $N(\mu, \sigma)$ of size n, how would we create a confidence interval around the estimated mean?
+
+confidence intervals
+- how do we build a confidence interval?
+- assume $Y_i ~ N(5,25)$ for $1 \leq i \leq 100$ and $y_i = \mu + \epsilon$ where $\epsilon ~ N(0,25)$. then the Least Squares estimator of $\mu(\mu_{LS})$ is the sample mean $\bar{y}$
+- what is the 95% confidence interval for $\mu_{LS}$?
+    - $CI_{0.95} = [\bar{y} - 1.96 \times SE(\mu_{LS}), \bar{y} + 1.96 \times SE(\mu_{LS})]$
+        - $ = [\bar{y} - 1.96 \times 0.5, \bar{y} + 1.96 \times 0.5]$
+        - 1.96 as the z-value for 95% confidence interval
+        - $SE(\mu_{LS}) = \frac{\sigma_{\epsilon}}{\sqrt{n}} = \frac{5}{\sqrt{100}} = 0.5$
+
+checking our assumptions
+1. normal distribution?
+2. constant variance?
+
+QQ plot
+- quantiles are the values for which a particular % of values are contained below it
+- for example the 50% quantile of a N(0,1) distribution is 0 since 50% of samples would be contained below 0 were you to sample a large number of times
+- for all quantities q, if sample.q == known_distribution.q then they have the same distribution
+
+constant variance
+- one of our assumptions was that our noise had constant variance. how can we verify this?
+- we can plot residuals (noise estimates) for each fitted value $\hat{y_i}$
+
+extending our linear model
+- changing the assumptions we made can drastically change the problem we are solving. a few ways to extend the linear model:
+1. non-constant variance - used in WLS (weighted least squares)
+2. distribution of error is not Normal - used in GLM (generalized linear models)
