@@ -1,4 +1,15 @@
-# Lecture 13 (10/23)
+# Lecture 1? (11/04)
+
+## Hypothesis Testing
+
+How well did our lin reg model do? Is R^2 variance enough?
+
+t-value and p-value review 
+- Seeing our model as a random model that happened on our sample
+- What are the odds we saw what we saw? --> where hypothesis testing comes in
+- Could beta=0? Gather evidence that this is not true!
+
+High p, unlikely statistifcal significant
 
 ## Midterm Launch
 
