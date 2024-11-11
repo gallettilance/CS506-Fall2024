@@ -1197,3 +1197,21 @@ extending our linear model
 - changing the assumptions we made can drastically change the problem we are solving. a few ways to extend the linear model:
 1. non-constant variance - used in WLS (weighted least squares)
 2. distribution of error is not Normal - used in GLM (generalized linear models)
+
+## 11/6 notes
+
+(same slides as 11/4)
+
+recap
+- trying to create a universal metric for evaluating a linear model (saying how good of a model it is)
+    - came up with $R^2$ that captures the amount of variance in data explained by our model
+    - close to 1 for $R^2$ is good and close to 0 is bad
+
+trying to see our modeling process as a random instance of a process/random variable
+- we have a population or some distribution that governs the samples/datasets we get and we only get a small window into this distribution (random sample)
+- from this random sample we create a model and have a view of what our $\beta$ for example might be
+- assuming we have some true $\beta$, what are the odds of seeing what we saw? aka how likely is the sample we just received?
+    - if this sample is very unlikely, maybe the hypothesis is wrong
+
+p-value is high -> under null hypothesis that means around 50% will see the constant value (on the hypothesis test slide)
+ 
