@@ -300,4 +300,14 @@ Paritional Clustering:
 - variation around linear regression is same as variation if you collect data at one specific x value 
 - linear matters for beta and not x 
 
+# 11/4/2024
+## Linear Model Evaluation
+- evaluation of a model: 
+  - Total sum of squares (TSS) -- measure of the spread of $y_i$ around the main of y 
+  - ESS -- measure of the spread of our model's estimates of $y_i$ aroudn the mean of y
+  - $R^2$ = $\frac{ESS}{TSS}$ -- measures fraction of variance that is exokained by your model 
+    - if $R^2$ is 1, that means that every single point is on the line 
+  - adjusted $R^2$ accounts for the fact that the more features we have, the more we will be artificially inflating our $R^2$ value 
+- Hypothesis Testing 
+  - if we repeat  give number of times, how many times will we see what was observed 
 
