@@ -1,0 +1,19 @@
+ritesh@crc-dot1x-nat-10-239-45-206 CS506-Fall2024 % git add .
+ritesh@crc-dot1x-nat-10-239-45-206 CS506-Fall2024 % git commit -m "Your commit message"
+[main 55895d4] Your commit message
+ 2 files changed, 13 insertions(+), 17 deletions(-)
+ create mode 100644 lecture_15/test
+ritesh@crc-dot1x-nat-10-239-45-206 CS506-Fall2024 % git pull https://github.com/gallettilance/CS506-Fall2024.git
+From https://github.com/gallettilance/CS506-Fall2024
+ * branch            HEAD       -> FETCH_HEAD
+Successfully rebased and updated refs/heads/main.
+ritesh@crc-dot1x-nat-10-239-45-206 CS506-Fall2024 % git pull
+warning: skipped previously applied commit 4c36216
+warning: skipped previously applied commit 269885d
+warning: skipped previously applied commit 4a78e10
+warning: skipped previously applied commit 3c56bc1
+warning: skipped previously applied commit f246776
+warning: skipped previously applied commit da11fb8
+hint: use --reapply-cherry-picks to include skipped commits
+hint: Disable this message with "git config advice.skippedCherryPicks false"
+Successfully rebased and updated refs/heads/main.
