@@ -1215,3 +1215,45 @@ trying to see our modeling process as a random instance of a process/random vari
 
 p-value is high -> under null hypothesis that means around 50% will see the constant value (on the hypothesis test slide)
  
+## 11/11 notes
+answers and explanations for the lecture 17 google form
+1. Logistic Regression makes assumptions about the distribution of X
+    -   ANSWER: False
+2. Logistic Regression makes assumptions about the distribution of Y
+    -   ANSWER: True (Y is a binary variable, it's distribution is Bernoulli; probability of success depends on where we are in the space)
+3. Logistic Regression makes assumptions about P(Y|X)
+    -   ANSWER: True
+4. If we use x1 and x2 as features. Logistic Regression always will create a decision boundary that is a linear function of x1 and x2 which will look like a line when plotted in the 2D plane (x1, x2)
+    -   ANSWER: True. (Why is it a line? -> decision boundary is exactly where its 1/2 and therefore its exactly where its a line)
+5. If we include sqrt(x1) as a feature instead of x1, the decision boundary will look curved when plotted in the 2D plane (x1, x2).
+    -   ANSWER: True
+6. That decision boundary will look like a line in the 2D plane (sqrt(x1), x2)
+    -   ANSWER: True (now a linear function of the two features so it looks like a line)
+7. Probit regression uses the CDF of a normal distribution instead of the sigmoid function.
+    -   ANSWER: True
+8. For the same decision boundary, probabilities > 1/2 assigned by Probit Regression are greater than those assigned by logistic regression
+    -   ANSWER: False (its smaller)
+9. If only interested in classification, choosing between probit and logistic regression is the same as choosing between any two classifiers
+    -   ANSWER: True
+10. In logistic regression, points that are on the same line parallel to the decision boundary are assigned the same probability.
+    -   ANSWER: True
+11. In logistic regression, outliers are assigned very low probabilities since they are most likely neither class
+    -   ANSWER: False (what can we do to find outliers then? --> could look at distance for that point from the rest of the dataset; if we have access to the distribution of our data we can evaluate each point using that probability function and see if that point is representative or uncharaceteristic of that distribution)
+12. P(Y|X) is a subject of interest in both Naive Bayes and Logistic Regression. The main difference is that Logistic Regression tries to estimate this probability directly while Naive Bayes does not
+    -   ANSWER: True (naive bayes not trying to find probability of Y|X but instead trying to find what class makes it the largest)
+13. The probability assigned by logistic regression implies that along a line parallel to the decision boundary, it's expected that this specific percentage of samples belong to the reference class.
+    -   ANSWER: True
+14. The sigmoid function is a probability distribution function.
+    -   ANSWER: False
+15. The softmax function is not a probability distribution function.
+    -   ANSWER: True
+16. Since the gradient of the sigmoid function is basically zero when sigmoid is basically 0 or basically 1, in the calculation of the gradient of the loss, the contribution of points far from the boundary is basically none - only points close to the boundary really contribute
+    -   ANSWER: True
+17. Going off the previous question, this means that SVM and logistic regression could find similar if not identical solutions in some cases
+    -   ANSWER: True (?)
+18. In gradient descent, because we're always taking a step in the steepest descent direction, at every step in gradient descent the function values get smaller and smaller
+    -   ANSWER: False
+19. The step size is a tuning parameter of gradient descent. It fully determines the distance by which the point moves at each step of gradient descent
+    -   ANSWER: False (the other piece of the puzzle is the gradient at that point)
+20. The steeper the variation in the function, the more sensitive to step size the gradient descent algorithm becomes
+    -   ANSWER: True (?)
