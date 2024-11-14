@@ -311,3 +311,11 @@ Paritional Clustering:
 - Hypothesis Testing 
   - if we repeat  give number of times, how many times will we see what was observed 
 
+
+# 11/11/2024
+## Logistic regression 
+- logistic regression makes assumptions about the distribution of Y 
+  - bernoulli distribution 
+- logistic regression makes assumptions about the distributions of Y|X
+- 
+
