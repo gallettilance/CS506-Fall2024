@@ -1257,3 +1257,172 @@ answers and explanations for the lecture 17 google form
     -   ANSWER: False (the other piece of the puzzle is the gradient at that point)
 20. The steeper the variation in the function, the more sensitive to step size the gradient descent algorithm becomes
     -   ANSWER: True (?)
+
+
+## 11/18 notes
+- $max \prod_{i=1}^{n} P(y_i|x_i) = \prod_{i} (logit^{-1}(w^Tx_i+b))^{y_i}(1-logit^{-1}(w^Tx_i+b))^{1-y_i}$
+    - $= min -\frac{1}{n} \sum_{i=1}^{n} [y_i log(\sigma(-w^Tx_i+b)) + (1-y_i)log(1-\sigma(-w^Tx_i+b))]$
+    - $= min Cost(w,b)$
+
+inputs $x_1$ and $x_2$ into $\sum_{w_ix_i}$ which becomes $\sigma$ which is a proba(y) which then gets put into $Cost(w,b)$ which then becomes gradient of the cost of w,b which is put into $\sum_{w_ix_i}$ again
+
+dataset example of exam lenght vs study time and showing corresponding stress levels of the students with these values
+- can separate those who are stressed from those who are not stressed using a model
+
+another graph that shows with exam length vs study time the students that passed vs failed
+
+another graph with confidence with stress and passing vs failing
+
+learn features AND model at the same time -> this is a neural network
+
+neural networks
+- putting it all together
+    - $x_1$ and $x_2$ (input layer) into $h_1$ and $h_2$ (hidden layer) which outputs $y$
+    - $h_1 = \sigma(w^{(1)}_{00}x_1 + w^{(1)}_{01}x_2 + b^{(1)}_1)$
+    - $h_2 = \sigma(w^{(1)}_{10}x_1 + w^{(1)}_{11}x_2 + b^{(1)}_2)$
+    - $y = \sigma(w^{(2)}_{0}h_1 + w^{(2)}_{2}h_2 + b^{(2)}_1)$
+- its all about learning features (created in the hidden layer(s)) automatically
+- we need to define:
+    1. how input flows through the network to get the output (forward propagation)
+    2. how the weights and biases gets updated (backpropagation)
+
+neural networks - forward propagation
+- $h_1 = \sigma(w^{(1)}_{00}x_1 + w^{(1)}_{01}x_2 + b^{(1)}_1)$
+- $h_2 = \sigma(w^{(1)}_{10}x_1 + w^{(1)}_{11}x_2 + b^{(1)}_2)$
+- $y = \sigma(w^{(2)}_{0}h_1 + w^{(2)}_{2}h_2 + b^{(2)}_1)$
+- using matrix notation:
+$$\begin{bmatrix}
+h1 \\
+h2
+\end{bmatrix} 
+=
+\sigma(
+    \begin{bmatrix}
+    w^{(1)}_{00} & w^{(1)}_{01} \\
+    w^{(1)}_{10} & w^{(1)}_{11}
+    \end{bmatrix}
+    \begin{bmatrix}
+    x_1 \\
+    x_2
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+    b^{(1)}_{1} \\
+    b^{(1)}_2
+    \end{bmatrix}
+)$$
+
+$$y = \sigma(
+    \begin{bmatrix}
+    w^{(2)}_{00} \\
+    w^{(2)}_{01}
+    \end{bmatrix}^T
+    \begin{bmatrix}
+    h_1 \\
+    h_2
+    \end{bmatrix}
+    +
+    b^{(2)}
+)$$
+- Q: if all the weights and biases are initialized to 0, what will be the output of the network? --> 0.5
+
+recall in logistic regression
+- decision boundary is where $\sigma(wx+b) = 1/2$
+- which is exactly where $wx+b=0$
+
+neural networks - forward propagation
+- Q: what happens if we dont have $\sigma$ in the hidden layer there? what will the decision boundary look like? what will our features be?
+    - if we don't, we just end up with normal logistic regression on $x_1$ and $x_2$
+    - $h_1 = \sigma(w^{(1)}_{00}x_1 + w^{(1)}_{01}x_2 + b^{(1)}_1)$
+    - $h_2 = \sigma(w^{(1)}_{10}x_1 + w^{(1)}_{11}x_2 + b^{(1)}_2)$
+    - then
+        - $y = \sigma(w^{(2)}_{0}h_1 + w^{(2)}_{2}h_2 + b^{(2)}_1)$
+            - $= \sigma(w^{(2)}_{0}(w^{1}_{00}x_1 + w^{(1)}_{(01)}x_2 + b^{(1)}_1) + w^{(2)}_1(w^{(1)}_{10}x_1 + w^{(1)}_{11}x_2 + b^{(1)}_2) + b^{(2)}_1)$
+            - $= \sigma(w_1x_1 + w_2x_2 + b_2)$
+
+neural networks - backpropagation
+- how do weights and biases get updated?
+- this is the same update from logistic regression except relative to the learned features h  
+    - $Cost(w,b)$
+    - $= -\frac{1}{n} \sum_{i=1}^{n} [y_i log(\sigma(-w^Th_i+b)) + (1-y_i)log(1-\sigma(-w^Th_i+b))]$
+    - $\nabla Cost(w,b) = [\frac{\partial{}}{\partial{w}}Cost, \frac{\partial{}}{\partial{b}}Cost]$
+    - $\frac{\partial{}}{\partial{w}} Cost = \frac{1}{n} \sum_{i=1}^{n} h_i(y_i - \sigma(-w^Th_i + b))$
+    - $\frac{\partial{}}{\partial{b}} Cost = \frac{1}{n} \sum_{i=1}^{n} \sigma(-w^Th_i + b) - y_i$
+    - using the chain rule:
+        - $\frac{\partial{C}}{\partial{W^{(2)}}} = \frac{\partial{C}}{\partial{u^{(2)}}} \frac{\partial{u^{(2)}}}{\partial{W^{(2)}}}$ where $u^{(2)} = W^{(2)}h + b^{(2)}$
+            - $h = \sigma(W^{(1)}X + b^{(1)})$
+        - $= \frac{\partial{C}}{\partial{u^{(2)}}} \times h = \frac{1}{n} \sum_{i=1}^{n} h(y_i - \sigma(u^{(2)}))$
+    - similarly:
+        - $\frac{\partial{C}}{\partial{b^{(2)}}} = \frac{\partial(C)}{\partial{u^{(2)}}} \frac{\partial{u^{(2)}}}{\partial{b^{(2)}}} = \frac{1}{n} \sum_{i=1}^{n} y_i - \sigma(u^{(2)})$
+    - so we can update $W^{(2)}$ and $b^{(2)}$ as follows:
+        - $\begin{bmatrix}
+            W_{new}^{(2)} \\
+            b_{new}^{(2)}
+            \end{bmatrix} = 
+            -\alpha 
+            \begin{bmatrix}
+            \frac{\partial{C}}{\partial{W^{(2)}}} \\
+            \frac{\partial{C}}{\partial{b^{(2)}}}
+            \end{bmatrix}
+            +
+            \begin{bmatrix}
+            W^{(2)} \\
+            b^{(2)}
+            \end{bmatrix}$
+        - so far this is identical to logistic regression. but how do we update $W^{(1)}$ and $b^{(1)}$
+    - how do weights and biases get updated?
+    - $= -\frac{1}{n} \sum_{i=1}^{n} [y_i log(\sigma(-w^Th_i+b)) + (1-y_i)log(1-\sigma(-w^Th_i+b))]$
+        - $h_i$ is $h_i = \sigma(w^{(1)}_{i0}x_1 + w^{(1)}_{i1}x_2 + b^{(1)}_i)$
+    - using the chain rule:
+        - $\frac{\partial{C}}{\partial{W^{(1)}}} = \frac{\partial{C}}{\partial{h}} \times \frac{\partial{h}}{\partial{W^{(1)}}} = \frac{\partial{C}}{\partial{h}} \times \frac{\partial{h}}{\partial{u^{(1)}}} \times \frac{\partial{u^{(1)}}}{\partial{W^{(1)}}}$ where $u^{(1)} = w^{(1)}x +b^{(1)}$
+            - $= \frac{\partial{C}}{\partial{u^{(2)}}} \times \frac{\partial{u^{(2)}}}{\partial{h}} \times \frac{\partial{h}}{\partial{u^{(1)}}} \times \frac{\partial{u^{(1)}}}{\partial{W^{(1)}}} = \frac{\partial{C}}{\partial{u^{(2)}}} \times W^{(2)} \times \sigma'(u^{(1)}) \times x$
+    - similarly: $\frac{\partial{C}}{\partial{b^{(1)}}} = \frac{\partial{C}}{\partial{u^{(2)}}} \times W^{(2)} \times \sigma'(u^{(1)})$
+- backpropagation: update $W^{(1)}$ and $b^{(1)}$ without recomputing values that are computed when getting the gradients of the previously updated layer
+- important note:
+    - $\frac{\partial{C}}{\partial{W^{(1)}}} = \frac{\partial{C}}{\partial{h}} \times \frac{\partial{h}}{\partial{W^{(1)}}} = \frac{\partial{C}}{\partial{h}} \times \frac{\partial{h}}{\partial{u^{(1)}}} \times \frac{\partial{u^{(1)}}}{\partial{W^{(1)}}}$ where $u^{(1)} = w^{(1)}x + b^{(1)}$
+    - $= \frac{\partial{C}}{\partial{u^{(2)}}} \times \frac{\partial{u^{(2)}}}{\partial{h}} \times \frac{\partial{h}}{\partial{u^{(1)}}} \times \frac{\partial{u^{(1)}}}{\partial{W^{(1)}}} = \frac{\partial{C}}{\partial{u^{(2)}}} \times W^{(2)} \times \sigma'(u^{(1)}) \times x$ (where $W^{(2)}$ and $x$ depends on both data and weights)
+
+question
+- what happens if all weights are initialized to the same value? $h_1 = h_2$
+
+neural networks
+- can do both classification and regression
+
+neural networks - tuning parameters
+1. step size $\alpha$
+2. number of backpropagation iterations
+3. batch size
+4. number of hidden layers
+5. size of each hidden layer
+6. activation function used in each layer
+7. cost function
+8. regularization (to avoid overfitting)
+
+activation functions
+- identity -> X
+- sigmoid -> $\sigma(x)$
+- tanh -> tanh(x)
+- ReLU -> max(0,x)
+- note: can use any function you want in order to introduce non-linearity. these are just the popular ones that have been shown to work in practice. tuning the activation function is equivalent to feature engineering
+
+universal approximation theorem
+
+neural networks - challenges
+1. high risk of overfitting as you're optimizing on the training set
+2. as the dimensionality of the input increases
+    - so does the number of weights
+    - the gradients typically get smaller: vanishing gradient theorem
+3. doesn't do well for computer vision where the object of detection can be anywhere in the image
+4. doesn't handle sequences of inputs (i.e. providing context for the data)
+
+neural networks - regularization
+- two main ways:
+    1. early termination of weight / bias updates
+    2. dropout - kill neurons (by setting them to 0) randomly
+
+neural networks
+- first: normalize your data
+- divide and conquer
+    - zero initialization:
+        - if act(0) != 0 then weights all move together (same as constant init)
+        - if act(0) == 0 then no updates can be made
