@@ -3,6 +3,7 @@ name: Daily Pull
 on:
   schedule:
     - cron: '0 0 * * *' # This runs every day at midnight UTC
+  workflow_dispatch: # Add this line
 
 jobs:
   pull:
