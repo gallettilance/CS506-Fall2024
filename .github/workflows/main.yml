@@ -1,0 +1,26 @@
+name: Daily Pull
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # This runs every day at midnight UTC
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Set up Git
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git remote add upstream https://github.com/gallettilance/CS506-Fall2024.git
+
+    - name: Pull latest changes
+      run: |
+        git pull upstream main
+        git push origin main
