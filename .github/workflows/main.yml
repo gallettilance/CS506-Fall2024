@@ -24,5 +24,5 @@ jobs:
 
     - name: Pull latest changes
       run: |
-        git pull upstream main
-        git push origin main
+        git pull upstream main || git reset --hard HEAD
+        git push origin main || echo "Merge conflict occurred. Manual intervention required."
