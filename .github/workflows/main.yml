@@ -3,7 +3,7 @@ name: Daily Pull
 on:
   schedule:
     - cron: '0 0 * * *' # This runs every day at midnight UTC
-  workflow_dispatch: # Add this line
+  workflow_dispatch:
 
 jobs:
   pull:
@@ -19,6 +19,7 @@ jobs:
       run: |
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
+        git config pull.rebase false # Adjust this line based on your preference
         git remote add upstream https://github.com/gallettilance/CS506-Fall2024.git
 
     - name: Pull latest changes
