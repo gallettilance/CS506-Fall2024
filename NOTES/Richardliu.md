@@ -1,0 +1,2 @@
+- Check git status: git remote -v
+- Push to repo; git push origin
